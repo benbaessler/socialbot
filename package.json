@@ -1,0 +1,18 @@
+{
+  "name": "lens-echo",
+  "version": "1.2.5",
+  "description": "The first Web3 social interface on Discord. Built with Lens Protocol.",
+  "main": "index.js",
+  "repository": "https://github.com/benbaessler/lens-echo",
+  "author": "Ben Baessler",
+  "license": "GNU v3",
+  "private": true,
+  "workspaces": [
+    "src/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:bot": "yarn workspace bot dev",
+    "dev:backend": "yarn workspace backend dev"
+  }
+}
