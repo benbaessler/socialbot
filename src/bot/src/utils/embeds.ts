@@ -5,7 +5,8 @@ import {
   helpEmbedContent,
   parseHandle,
 } from ".";
-import { VERSION, colors, icons } from "../constants";
+import { colors, icons } from "../constants";
+import Version from "../models/Version";
 
 export const ListEmbed = (monitors: any[]) =>
   new EmbedBuilder()
@@ -123,12 +124,14 @@ export const ErrorEmbed = () => {
     .setColor(colors.error);
 };
 
-export const HelpEmbed = () =>
-  new EmbedBuilder()
+export const HelpEmbed = async () => {
+  const [version] = await Version.find({});
+  return new EmbedBuilder()
     .setColor(colors.main)
     .setTitle("Quickstart :herb:")
     .setDescription(helpEmbedContent)
     .setFooter({
-      text: `Lens Echo v${VERSION}`,
+      text: `Lens Echo v${version.version}`,
       iconURL: icons.logo,
     });
+};

@@ -1,7 +1,5 @@
 require("dotenv").config();
 
-export const VERSION = "1.2.5";
-
 export const colors = {
   main: 0x00501e,
   success: 0x0ec924,

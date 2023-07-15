@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
 import { HelpEmbed } from "../utils";
-import Stats from "../../../backend/src/models/Stats";
+import Stats from "../models/Stats";
 
 const data = new SlashCommandBuilder()
   .setName("help")
@@ -9,7 +9,7 @@ const data = new SlashCommandBuilder()
 const execute = async (interaction: ChatInputCommandInteraction) => {
   await Promise.all([
     interaction.reply({
-      embeds: [HelpEmbed()],
+      embeds: [await HelpEmbed()],
       ephemeral: true,
     }),
     Stats.updateOne(
