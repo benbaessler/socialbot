@@ -13,6 +13,8 @@
   ],
   "scripts": {
     "dev:bot": "yarn workspace bot dev",
-    "dev:backend": "yarn workspace backend dev"
+    "dev:backend": "yarn workspace backend dev",
+    "start:bot": "yarn workspace bot start",
+    "start:backend": "yarn workspace backend start"
   }
 }
