@@ -1,0 +1,27 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "benbaessler <mail@benbaessler.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node public/index.js",
+    "dev": "ts-node src/index.ts",
+    "deploy:commands": "ts-node src/deploy-commands.ts",
+    "test": "ts-node src/tests/index.ts"
+  },
+  "dependencies": {
+    "@lens-protocol/client": "^1.0.1",
+    "@lens-echo/core": "*",
+    "@sentry/node": "^7.51.2",
+    "discord.js": "^14.9.0",
+    "dotenv": "^16.0.3",
+    "ethers": "^6.3.0",
+    "mongoose": "^7.0.3",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
