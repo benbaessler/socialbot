@@ -2,8 +2,7 @@
   "name": "bot",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "benbaessler <mail@benbaessler.com>",
-  "license": "MIT",
+  "license": "GNU v3",
   "scripts": {
     "build": "tsc",
     "start": "node public/index.js",

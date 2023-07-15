@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "license": "GNU v3",
   "scripts": {
     "start": "node public/index.js",
     "dev": "ts-node src/index.ts",
