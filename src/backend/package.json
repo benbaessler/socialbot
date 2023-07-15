@@ -1,0 +1,38 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node public/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "ts-node src/tests/index.ts",
+    "scripts:updateOwners": "ts-node src/scripts/updateOwners.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.14",
+    "@lens-protocol/client": "^1.0.1",
+    "@lens-echo/core": "*",
+    "@sentry/node": "^7.51.2",
+    "@types/ws": "^8.5.4",
+    "apollo-link": "^1.2.14",
+    "apollo-link-ws": "^1.0.20",
+    "axios": "^1.4.0",
+    "crypto": "^1.0.1",
+    "discord.js": "^14.9.0",
+    "dotenv": "^16.0.3",
+    "ethers": "^6.3.0",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.4",
+    "subscriptions-transport-ws": "^0.11.0",
+    "typescript": "^5.0.4",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/express": "^4.17.17",
+    "@types/mongoose": "^5.11.97",
+    "ts-node": "^10.9.1"
+  }
+}
