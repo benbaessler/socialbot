@@ -1,0 +1,1 @@
+declare module "@lens-echo/core";
