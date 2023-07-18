@@ -6,7 +6,8 @@ import {
   getInstancesWithInteractions,
   increasePostedCount,
 } from "../utils";
-import { IPayload, IInstance } from "../types";
+import { IPayload } from "../types";
+import { IInstance } from "@lens-echo/core/src/types";
 import { captureException } from "@sentry/node";
 interface Props {
   profileId: string;

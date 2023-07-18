@@ -2,14 +2,6 @@ require("dotenv").config();
 
 export const useMainnet: boolean = process.env.USE_MAINNET == "true";
 
-export const networkId = useMainnet ? 137 : 80001;
-
-export const handleDomain = useMainnet ? ".lens" : ".test";
-
-export const lensHubAddress = useMainnet
-  ? "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d"
-  : "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82";
-
 export const interactionProxyAddress = useMainnet
   ? "0xcbea63064afbfab509c33f9843fd8e08336d5971"
   // TODO: Add testnet interaction proxy address
