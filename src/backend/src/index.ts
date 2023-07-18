@@ -1,3 +1,5 @@
+/// <reference path="./index.d.ts" />
+
 import { Log } from "ethers";
 import express, { Request, Response } from "express";
 import crypto from "crypto";

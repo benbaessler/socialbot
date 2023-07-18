@@ -11,9 +11,9 @@ import {
   getProfileByHandle,
   hexToNumber,
 } from "../utils";
-import Instance from "../../../backend/src/models/Instance";
+import Instance from "../models/Instance";
 import { captureException } from "@sentry/node";
-import Stats from "../../../backend/src/models/Stats";
+import Stats from "../models/Stats";
 
 const data = new SlashCommandBuilder()
   .setName("follow")

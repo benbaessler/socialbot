@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const Stats = new Schema({
   guildId: {
@@ -37,4 +37,4 @@ const Stats = new Schema({
   }
 });
 
-export default model("Stats", Stats);
+export default models?.Stats || model("Stats", Stats);

@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
-import Instance from "../../../backend/src/models/Instance";
+import Instance from "../models/Instance";
 import { ListEmbed } from "../utils";
 import { client } from "../bot";
-import Stats from "../../../backend/src/models/Stats";
+import Stats from "../models/Stats";
 
 const data = new SlashCommandBuilder()
   .setName("list")

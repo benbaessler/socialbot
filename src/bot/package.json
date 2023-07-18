@@ -18,9 +18,7 @@
     "dotenv": "^16.0.3",
     "ethers": "^6.3.0",
     "mongoose": "^7.0.3",
-    "typescript": "^5.0.4"
-  },
-  "devDependencies": {
+    "typescript": "^5.0.4",
     "ts-node": "^10.9.1"
   }
 }

@@ -3,9 +3,9 @@ import {
   ChatInputCommandInteraction,
   TextChannel,
 } from "discord.js";
-import Instance from "../../../backend/src/models/Instance";
+import Instance from "../models/Instance";
 import { parseHandle, UnfollowEmbed, ProfileErrorEmbed } from "../utils";
-import Stats from "../../../backend/src/models/Stats";
+import Stats from "../models/Stats";
 
 const data = new SlashCommandBuilder()
   .setName("unfollow")

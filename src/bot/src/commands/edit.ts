@@ -9,8 +9,8 @@ import {
   parseHandle,
   ErrorEmbed,
 } from "../utils";
-import Instance from "../../../backend/src/models/Instance";
-import Stats from "../../../backend/src/models/Stats";
+import Instance from "../models/Instance";
+import Stats from "../models/Stats";
 
 const data = new SlashCommandBuilder()
   .setName("edit")

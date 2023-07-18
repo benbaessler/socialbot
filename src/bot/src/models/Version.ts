@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const Version = new Schema({
   version: {
@@ -11,4 +11,4 @@ const Version = new Schema({
   },
 });
 
-export default model("Version", Version);
+export default models?.Version || model("Version", Version);
