@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import { IInstance } from "../types";
+import { IInstance } from "@lens-echo/core/src/types";
 
 const Instance = new Schema<IInstance>({
   guildId: {
@@ -37,7 +37,7 @@ const Instance = new Schema<IInstance>({
   webhookUrl: {
     type: String,
     required: true,
-  }
+  },
 });
 
 export default models?.Instance || model("Instance", Instance);

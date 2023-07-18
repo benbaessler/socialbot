@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import { IStats } from "../types";
+import { IStats } from "@lens-echo/core/src/types";
 
 const Stats = new Schema<IStats>({
   guildId: {
