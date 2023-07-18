@@ -1,14 +1,11 @@
 import { EmbedBuilder } from "discord.js";
-import {
-  getProfileUrl,
-  listEmbedContent,
-  helpEmbedContent,
-  parseHandle,
-} from ".";
+import { listEmbedContent, helpEmbedContent } from ".";
 import { colors, icons } from "../constants";
-import Version from "../models/Version";
+import VersionManager from "../models/VersionManager";
+import { getProfileUrl } from "@lens-echo/core";
+import { IInstance } from "@lens-echo/core/src/types";
 
-export const ListEmbed = (monitors: any[]) =>
+export const ListEmbed = (monitors: IInstance[]) =>
   new EmbedBuilder()
     .setTitle(`Monitored profiles in this server (${monitors.length})`)
     .setDescription(listEmbedContent(monitors))
@@ -125,7 +122,7 @@ export const ErrorEmbed = () => {
 };
 
 export const HelpEmbed = async () => {
-  const [version] = await Version.find({});
+  const [version] = await VersionManager.find({});
   return new EmbedBuilder()
     .setColor(colors.main)
     .setTitle("Quickstart :herb:")

@@ -2,7 +2,6 @@ import { REST, Routes } from "discord.js";
 import fs from "fs";
 import path from "path";
 import { token, clientId } from "./constants";
-import Sentry from "@sentry/node";
 require("dotenv").config();
 
 export default async function deployCommands() {
@@ -27,7 +26,6 @@ export default async function deployCommands() {
       body: commands,
     });
   } catch (error) {
-    Sentry.captureException(`Error deploying commands: ${error}`);
-    console.error(error);
+    throw new Error(`Error deploying commands: ${error}`);
   }
 }

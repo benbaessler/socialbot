@@ -3,14 +3,8 @@ import {
   ChatInputCommandInteraction,
   TextChannel,
 } from "discord.js";
-import {
-  parseHandle,
-  FollowEmbed,
-  ErrorFollowEmbed,
-  getProfileId,
-  getProfileByHandle,
-  hexToNumber,
-} from "../utils";
+import { FollowEmbed, ErrorFollowEmbed } from "../utils";
+import { parseHandle, getProfileByHandle, hexToNumber } from "@lens-echo/core";
 import Instance from "../models/Instance";
 import { captureException } from "@sentry/node";
 import Stats from "../models/Stats";
@@ -111,7 +105,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     webhookUrl,
   });
   await newInstance.save();
-  
+
   Promise.all([
     interaction.reply({
       embeds: [FollowEmbed(handle, channel.id)],
@@ -122,9 +116,6 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
       { $inc: { commandsUsed: 1 } }
     ),
   ]);
-
-  console.log(`Monitoring @${handle} in #${channel.name}:(${channel.id})`);
-
 };
 
 export default {

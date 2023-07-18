@@ -6,9 +6,9 @@ import {
 import {
   EditEmbed,
   ProfileErrorEmbed,
-  parseHandle,
   ErrorEmbed,
 } from "../utils";
+import { parseHandle } from "@lens-echo/core";
 import Instance from "../models/Instance";
 import Stats from "../models/Stats";
 

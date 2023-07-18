@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-const Version = new Schema({
+const VersionManager = new Schema({
   version: {
     type: String,
     required: true,
@@ -11,4 +11,4 @@ const Version = new Schema({
   },
 });
 
-export default models?.Version || model("Version", Version);
+export default models?.VersionManager || model("VersionManager", VersionManager);

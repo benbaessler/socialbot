@@ -4,7 +4,8 @@ import {
   TextChannel,
 } from "discord.js";
 import Instance from "../models/Instance";
-import { parseHandle, UnfollowEmbed, ProfileErrorEmbed } from "../utils";
+import { UnfollowEmbed, ProfileErrorEmbed } from "../utils";
+import { parseHandle } from "@lens-echo/core";
 import Stats from "../models/Stats";
 
 const data = new SlashCommandBuilder()

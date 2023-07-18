@@ -12,28 +12,16 @@ export const icons = {
   success: "https://i.imgur.com/p8QxqB2.png",
 };
 
-export const useTestnet = process.env.USE_TESTNET == "true";
-export const networkId = useTestnet ? 80001 : 137;
-export const handleDomain = useTestnet ? ".test" : ".lens";
+export const useMainnet = process.env.USE_MAINNET == "true";
 
-export const lensHubProxyAddress = useTestnet
-  ? "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82"
-  : "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
+export const token = useMainnet
+  ? process.env.DISCORD_BOT_TOKEN
+  : process.env.DISCORD_BOT_TOKEN_TEST;
 
-export const alchemyApiKey = useTestnet
-  ? process.env.ALCHEMY_API_KEY_TEST
-  : process.env.ALCHEMY_API_KEY;
+export const clientId = useMainnet
+  ? process.env.DISCORD_CLIENT_ID
+  : process.env.DISCORD_CLIENT_ID_TEST;
 
-export const collectionName = useTestnet ? "test" : "production";
-
-export const token = useTestnet
-  ? process.env.DISCORD_BOT_TOKEN_TEST
-  : process.env.DISCORD_BOT_TOKEN;
-
-export const clientId = useTestnet
-  ? process.env.DISCORD_CLIENT_ID_TEST
-  : process.env.DISCORD_CLIENT_ID;
-
-export const dbConnectionString = useTestnet
-  ? process.env.DB_CONN_STRING_TEST
-  : process.env.DB_CONN_STRING;
+export const dbConnectionString = useMainnet
+  ? process.env.DB_CONN_STRING
+  : process.env.DB_CONN_STRING_TEST;

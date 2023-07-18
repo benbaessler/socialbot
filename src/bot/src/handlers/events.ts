@@ -1,4 +1,4 @@
-import { Collection, Events } from "discord.js";
+import { Collection, Events, Guild } from "discord.js";
 import { readdirSync } from "fs";
 import { join } from "path";
 import Instance from "../models/Instance";
@@ -40,17 +40,15 @@ export const initializeEvents = async (client: any) => {
     captureException(error);
   });
 
-  // TODO: Add guild type
-  client.on(Events.GuildCreate, (guild: any) => {
-    console.log(`Joined guild ${guild.name}`);
+  client.on(Events.GuildCreate, (guild: Guild) => {
     Stats.create({ guildId: guild.id, joinedAt: Date.now() });
   });
 
-  client.on(Events.GuildDelete, async (guild: any) => {
-    console.log(`Left guild ${guild.name}`);
-    const entries = await Instance.deleteMany({ guildId: guild.id });
-    console.log(`Deleted ${entries.deletedCount} entries`);
-    await Stats.deleteOne({ guildId: guild.id });
+  client.on(Events.GuildDelete, async (guild: Guild) => {
+    await Promise.all([
+      Instance.deleteMany({ guildId: guild.id }),
+      Stats.deleteOne({ guildId: guild.id }),
+    ]);
   });
 
   // TODO: Add interaction type

@@ -2,7 +2,7 @@ import { initializeEvents } from "./handlers/events";
 import mongoose from "mongoose";
 import { Client, GatewayIntentBits } from "discord.js";
 import { config } from "dotenv";
-import { token, useTestnet, dbConnectionString } from "./constants";
+import { token, useMainnet, dbConnectionString } from "./constants";
 config();
 
 export const client = new Client({
@@ -15,10 +15,8 @@ export const client = new Client({
 
 export default async function start() {
   await mongoose.connect(dbConnectionString!, { keepAlive: true });
-  console.log("Connected to Database");
-
   await initializeEvents(client);
 
-  console.log(`Running on ${useTestnet ? "testnet" : "mainnet"}`);
+  console.log(`Running on ${useMainnet ? "mainnet" : "testnet"}`);
   client.login(token);
 }

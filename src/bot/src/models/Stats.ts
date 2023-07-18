@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
+import { IStats } from "@lens-echo/core/src/types";
 
-const Stats = new Schema({
+const Stats = new Schema<IStats>({
   guildId: {
     type: String,
     required: true,

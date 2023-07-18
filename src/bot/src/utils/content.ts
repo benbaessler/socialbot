@@ -1,4 +1,5 @@
-import { getProfileUrl, parseHandle } from ".";
+import { getProfileUrl, parseHandle } from "@lens-echo/core";
+import { IInstance } from "@lens-echo/core/src/types";
 
 export const helpEmbedContent = `Lens Echo allows you to receive real-time updates from any Lens profile in your Discord server. **Here is a summary of the commands**:
 
@@ -9,12 +10,12 @@ export const helpEmbedContent = `Lens Echo allows you to receive real-time updat
 
 *Built with :heart: by [Ben Baessler](https://lensfrens.xyz/benbaessler.lens)*`;
 
-export const listEmbedContent = (monitors: any[]) => {
+export const listEmbedContent = (monitors: IInstance[]) => {
   if (monitors.length === 0) {
     return "No profiles are being monitored in this server. Use `/follow` to add a profile to the feed.";
   }
 
-  const groupedMonitors = monitors.reduce((acc: any, monitor: any) => {
+  const groupedMonitors = monitors.reduce((acc: any, monitor: IInstance) => {
     const { handle } = monitor;
     if (!acc[handle]) {
       acc[handle] = [];
@@ -27,13 +28,13 @@ export const listEmbedContent = (monitors: any[]) => {
     .map((group: any) => {
       const { handle, mention, includeMirrors, includeInteractions } = group[0];
       const channels = group
-        .map((monitor: any) => `<#${monitor.channelId}>`)
+        .map((monitor: IInstance) => `<#${monitor.channelId}>`)
         .join(" ");
 
       return `**[@${parseHandle(handle)}](${getProfileUrl(handle)})**
 Mentions: **${mention ? "Everyone" : "Off"}**
 Mirrors: **${includeMirrors ? "Included" : "No"}**
-Collects: **${includeInteractions ? "Included": "No"}**
+Collects: **${includeInteractions ? "Included" : "No"}**
 Channel(s): ${channels}\n`;
     })
     .join("\n");
