@@ -6,12 +6,10 @@ import {
   MessageContent,
   PublicationEmbed,
   getPublicationUrl,
-} from "../utils";
-import {
   getPictureUrl,
   getPublicationById,
   hexToNumber,
-} from "@lens-echo/core";
+} from "../utils";
 import { graphEndpoint, userAgent } from "../constants";
 import { newTransactionQuery } from "../graphql/NewTransactionSubscription";
 import { DataAvailabilityTransactionUnion } from "../generated";

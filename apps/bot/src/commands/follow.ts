@@ -3,8 +3,13 @@ import {
   ChatInputCommandInteraction,
   TextChannel,
 } from "discord.js";
-import { FollowEmbed, ErrorFollowEmbed } from "../utils";
-import { parseHandle, getProfileByHandle, hexToNumber } from "@lens-echo/core";
+import {
+  FollowEmbed,
+  ErrorFollowEmbed,
+  parseHandle,
+  getProfileByHandle,
+  hexToNumber,
+} from "../utils";
 import Instance from "../models/Instance";
 import { captureException } from "@sentry/node";
 import Stats from "../models/Stats";

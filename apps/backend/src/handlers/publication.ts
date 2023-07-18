@@ -5,16 +5,14 @@ import {
   getMonitoredProfileIds,
   lensHubInterface,
   getPublicationUrl,
-} from "../utils";
-import { ILog } from "../types";
-import {
   getPictureUrl,
   getProfile,
   numberToHex,
   parseUri,
   getPublicationById,
   getProfileUrl,
-} from "@lens-echo/core";
+} from "../utils";
+import { ILog } from "../types";
 import { sendToDiscord } from "./send";
 import { Log } from "ethers";
 

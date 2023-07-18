@@ -6,7 +6,7 @@ import {
   getMediaUrl,
   getProfileUrl,
   capitalize,
-} from "@lens-echo/core";
+} from ".";
 import { appIcons } from "../constants";
 import { Profile } from "../generated";
 import { captureException } from "@sentry/node";

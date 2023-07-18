@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import { IInstance } from "@lens-echo/core/src/types";
+import { IInstance } from "../utils";
 
 const Instance = new Schema<IInstance>({
   guildId: {

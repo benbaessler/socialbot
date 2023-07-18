@@ -5,15 +5,13 @@ import {
   PublicationEmbed,
   getPublicationUrl,
   MessageContent,
-} from "../utils";
-import { ILog } from "../types";
-import {
   numberToHex,
   getPublicationById,
   getPictureUrl,
   getDefaultProfile,
   hexToNumber,
-} from "@lens-echo/core";
+} from "../utils";
+import { ILog } from "../types";
 import { Log } from "ethers";
 import { interactionProxyAddress } from "../constants";
 import { sendToDiscord } from "./send";

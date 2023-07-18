@@ -1,9 +1,12 @@
 import { EmbedBuilder } from "discord.js";
-import { listEmbedContent, helpEmbedContent } from ".";
+import {
+  listEmbedContent,
+  helpEmbedContent,
+  getProfileUrl,
+  IInstance,
+} from ".";
 import { colors, icons } from "../constants";
 import VersionManager from "../models/VersionManager";
-import { getProfileUrl } from "@lens-echo/core";
-import { IInstance } from "@lens-echo/core/src/types";
 
 export const ListEmbed = (monitors: IInstance[]) =>
   new EmbedBuilder()

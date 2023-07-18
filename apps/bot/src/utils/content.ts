@@ -1,5 +1,4 @@
-import { getProfileUrl, parseHandle } from "@lens-echo/core";
-import { IInstance } from "@lens-echo/core/src/types";
+import { getProfileUrl, parseHandle, IInstance } from ".";
 
 export const helpEmbedContent = `Lens Echo allows you to receive real-time updates from any Lens profile in your Discord server. **Here is a summary of the commands**:
 

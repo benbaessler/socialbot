@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@lens-protocol/client": "^1.0.1",
-    "@lens-echo/core": "*",
     "@sentry/node": "^7.51.2",
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
