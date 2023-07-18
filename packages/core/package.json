@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "author": "Ben Baessler",
-  "license": "MIT",
+  "license": "GNU v3",
   "private": true,
   "scripts": {
     "build": "tsc"
