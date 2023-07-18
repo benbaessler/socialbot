@@ -1,0 +1,13 @@
+name: Feature Request
+description: Request a feature for Lens Echo.
+labels: [needs review]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to file a feature request! Please fill out this form as completely as possible.
+  - type: textarea
+    attributes:
+      label: Describe the feature you'd like to request
+      placeholder: Clearly describe what you want to see in Lens Echo.
+    validations:
+      required: true
