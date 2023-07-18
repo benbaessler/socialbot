@@ -1,6 +1,6 @@
 import { MediaSetFragment } from "@lens-protocol/client";
 
-export const parseUri = (uri: string) => {
+export const parseUri = (uri: string): string => {
   if (uri.startsWith("ipfs")) {
     return `https://ipfs.io/ipfs/${uri.slice(7)}`;
   }
@@ -14,7 +14,7 @@ export const parseUri = (uri: string) => {
   return "";
 };
 
-export const numberToHex = (num: number) => {
+export const numberToHex = (num: number): string => {
   let hexValue = num.toString(16);
 
   // Ensure an even number of digits
@@ -25,12 +25,12 @@ export const numberToHex = (num: number) => {
   return `0x${hexValue}`;
 };
 
-export const hexToNumber = (hex: string) => parseInt(hex, 16).toString();
+export const hexToNumber = (hex: string): string => parseInt(hex, 16).toString();
 
 export const capitalize = (str: string): string =>
   str.replace(/\b\w/g, (char) => char.toUpperCase());
 
-export const getMediaUrl = (media: MediaSetFragment) => {
+export const getMediaUrl = (media: MediaSetFragment): string => {
   const item = media as any;
   try {
     return parseUri(item.item);

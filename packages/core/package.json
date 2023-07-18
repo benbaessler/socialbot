@@ -1,10 +1,13 @@
 {
   "name": "@lens-echo/core",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "author": "Ben Baessler",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "@lens-protocol/client": "^1.2.0",
     "discord.js": "^14.11.0",
