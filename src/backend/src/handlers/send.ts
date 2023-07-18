@@ -6,16 +6,16 @@ import {
   getInstancesWithInteractions,
   increasePostedCount,
 } from "../utils";
-import { Payload } from "../utils";
-
+import { IPayload, IInstance } from "../types";
+import { captureException } from "@sentry/node";
 interface Props {
   profileId: string;
-  payload: Payload;
+  payload: IPayload;
   type: "Post" | "Comment" | "Collect" | "Mirror";
 }
 
 export const sendToDiscord = async ({ profileId, payload, type }: Props) => {
-  let instances: any[];
+  let instances: IInstance[];
   switch (type) {
     case "Collect":
       instances = await getInstancesWithInteractions(profileId);
@@ -28,29 +28,19 @@ export const sendToDiscord = async ({ profileId, payload, type }: Props) => {
       break;
   }
 
-  const startTime = new Date().getTime();
-  let sentAmount: number = 0;
   await Promise.all(
-    instances.map(async (instance: any) => {
+    instances.map(async (instance: IInstance) => {
       const data = { ...payload };
       if (instance.mention) {
         data.content = `${data.content} @everyone`;
       }
       await Promise.all([
         axios.post(instance.webhookUrl, data),
-        increasePostedCount(
-          instance.guildId,
-          `${type.toLowerCase()}sPosted`
-        ),
-        sentAmount++,
+        increasePostedCount(instance.guildId, `${type.toLowerCase()}sPosted`),
       ]).catch(() => {
-        console.log(`Failed to send webhook to ${instance.webhookUrl}`);
+        captureException(`Failed to send webhook to ${instance.webhookUrl}`);
         deleteInstances(instance.webhookUrl);
       });
     })
-  );
-  const timeInMs = new Date().getTime() - startTime;
-  console.log(
-    `Sent ${sentAmount} webhook(s) for ${profileId} in ${timeInMs}ms.`
   );
 };

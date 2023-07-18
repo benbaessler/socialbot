@@ -12,6 +12,7 @@ export const lensHubAddress = useMainnet
 
 export const interactionProxyAddress = useMainnet
   ? "0xcbea63064afbfab509c33f9843fd8e08336d5971"
+  // TODO: Add testnet interaction proxy address
   : "";
 
 export const topics = {
@@ -27,7 +28,6 @@ export const graphEndpoint = useMainnet
   ? "wss://api.lens.dev"
   : "wss://api-mumbai.lens.dev";
 
-// For Discord / Lens
 export const appIcons: { [key: string]: string } = {
   lenster:
     "https://pbs.twimg.com/profile_images/1556882055379636224/4g4orntN_400x400.jpg",
@@ -48,3 +48,6 @@ export const dbConnectionString = useMainnet
 
 export const ipfsGateway = "https://ipfs.io/ipfs/";
 export const arweaveGateway = "https://arweave.net/";
+
+export const userAgent =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36";

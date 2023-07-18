@@ -12,7 +12,7 @@ import {
   getPublicationById,
   hexToNumber,
 } from "@lens-echo/core";
-import { graphEndpoint } from "../constants";
+import { graphEndpoint, userAgent } from "../constants";
 import { newTransactionQuery } from "../graphql/NewTransactionSubscription";
 import { DataAvailabilityTransactionUnion } from "../generated";
 import { captureException } from "@sentry/node";
@@ -27,8 +27,7 @@ class CustomWebSocket extends WebSocket {
   constructor(address: string, protocols: string[]) {
     super(address, protocols, {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+        "User-Agent": userAgent,
       },
     });
   }
@@ -42,11 +41,8 @@ export const startListener = () => {
       connectionParams: {
         protocol: "graphql-ws",
       },
-      connectionCallback: (err: any) => {
-        if (err) {
-          console.error(err);
-          captureException(err);
-        }
+      connectionCallback: (error: Error[]) => {
+        if (error) console.error(error);
       },
     },
     webSocketImpl: CustomWebSocket,
@@ -68,7 +64,7 @@ export const handleDAPublication = async (
   const publication = await getPublicationById(data.publicationId);
 
   if (!publication) {
-    return console.log(`Publication not found: ${data.publicationId}`);
+    return new Error(`Publication not found: ${data.publicationId}`);
   }
 
   const profile = publication.profile;
@@ -113,7 +109,7 @@ export const handleDAPublication = async (
         })
       );
     } else
-      captureException(
+      throw new Error(
         `Quoted publication not found (id: ${publication.id}; quotedId: ${quotedPost.value})`
       );
   }
@@ -124,8 +120,6 @@ export const handleDAPublication = async (
     content,
     embeds,
   };
-
-  console.log(`Sending publication: ${data.publicationId}`);
 
   await sendToDiscord({
     profileId: hexToNumber(profile.id),

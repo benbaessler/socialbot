@@ -18,7 +18,7 @@ export const isMonitoredAddress = async (address: string) => {
   return instances.length > 0;
 };
 
-export const getInstances = async (profileId: string, includeMirrors?: true) =>
+export const getInstances = async (profileId: string) =>
   await Instance.find({ profileId });
 
 export const getInstancesWithMirrors = async (profileId: string) =>
@@ -33,10 +33,8 @@ export const getInstancesWithInteractions = async (profileId: string) =>
     includeInteractions: true,
   });
 
-export const deleteInstances = async (webhookUrl: string) => {
-  const instances = await Instance.deleteMany({ webhookUrl });
-  console.log(`Deleted ${instances.deletedCount} instances.`);
-};
+export const deleteInstances = async (webhookUrl: string) =>
+  await Instance.deleteMany({ webhookUrl });
 
 export const increasePostedCount = async (guildId: string, type: string) => {
   await Stats.findOneAndUpdate(

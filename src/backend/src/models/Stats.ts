@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
+import { IStats } from "../types";
 
-const Stats = new Schema({
+const Stats = new Schema<IStats>({
   guildId: {
     type: String,
     required: true,

@@ -6,12 +6,13 @@ import {
   lensHubInterface,
   getPublicationUrl,
 } from "../utils";
+import { ILog } from "../types";
 import { getPictureUrl, getPublicationbyTxHash } from "@lens-echo/core";
 import { sendToDiscord } from "./send";
-import { captureException } from "@sentry/node";
+import { Log } from "ethers";
 
-export const handleMirror = async (log: any, txHash: string) => {
-  const decoded = lensHubInterface.parseLog(log);
+export const handleMirror = async (log: Log, txHash: string) => {
+  const decoded = lensHubInterface.parseLog(log as unknown as ILog);
   const monitoredProfileIds = await getMonitoredProfileIds();
 
   if (!decoded || !monitoredProfileIds.includes(decoded.args[0].toString()))
@@ -24,7 +25,7 @@ export const handleMirror = async (log: any, txHash: string) => {
     )) as MirrorFragment;
 
     if (!publication)
-      return console.log(
+      return new Error(
         `Invalid publication id: ${publicationId}; Transaction: ${txHash}`
       );
 
@@ -39,15 +40,13 @@ export const handleMirror = async (log: any, txHash: string) => {
       }),
     };
 
-    console.log(`Sending transaction: ${txHash}`);
     await sendToDiscord({
       profileId: profileId.toString(),
       type: "Mirror",
       payload,
     });
   } catch (err) {
-    console.error(err);
-    captureException(
+    return new Error(
       `Error handling mirror publication (tx: ${txHash}; id: ${publicationId}): ${err}`
     );
   }

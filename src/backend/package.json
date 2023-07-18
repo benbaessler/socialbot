@@ -7,7 +7,6 @@
     "start": "node public/index.js",
     "dev": "ts-node src/index.ts",
     "test": "ts-node src/tests/index.ts",
-    "scripts:updateOwners": "ts-node src/scripts/updateOwners.ts",
     "build": "tsc"
   },
   "dependencies": {

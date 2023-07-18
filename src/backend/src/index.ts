@@ -56,7 +56,6 @@ app.post(
       body.transaction.hash
     );
 
-    // Return a 200 response
     response.send();
   }
 );
@@ -81,7 +80,6 @@ app.post(
       body.transaction.hash
     );
 
-    // Return a 200 response
     response.send();
   }
 );
@@ -105,7 +103,6 @@ app.post(
       body.transaction.hash
     );
 
-    // Return a 200 response
     response.send();
   }
 );
@@ -132,7 +129,6 @@ app.post(
       body.transaction.hash
     );
 
-    // Return a 200 response
     response.send();
   }
 );
@@ -146,7 +142,7 @@ app.listen(port, async () => {
   init({ dsn: process.env.SENTRY_DSN });
   await mongoose.connect(dbConnectionString!);
   console.log("Connected to Database");
-  console.log("Running on port ", port);
+  console.log("Running on port", port);
   startListener();
 });
 

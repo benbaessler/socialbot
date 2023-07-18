@@ -6,6 +6,7 @@ import {
   getPublicationUrl,
   MessageContent,
 } from "../utils";
+import { ILog } from "../types";
 import {
   numberToHex,
   getPublicationById,
@@ -14,23 +15,24 @@ import {
   hexToNumber,
 } from "@lens-echo/core";
 import { Log } from "ethers";
-import { topics, interactionProxyAddress } from "../constants";
-import Instance from "../models/Instance";
+import { interactionProxyAddress } from "../constants";
 import { sendToDiscord } from "./send";
-import { captureException } from "@sentry/node";
 
 export const handleCollect = async (
   log: Log,
   transfers: Log[],
   txHash: string
 ) => {
-  const decoded = lensHubInterface.parseLog(log as any);
-  const [, , , profileId, pubId] = decoded!.args;
+  const decoded = lensHubInterface.parseLog(log as unknown as ILog);
+
+  if (!decoded) return;
+
+  const [, , , profileId, pubId] = decoded.args;
 
   let collector: string = "";
   transfers.forEach((log: Log) => {
     try {
-      const transferEvent = lensHubInterface.parseLog(log as any);
+      const transferEvent = lensHubInterface.parseLog(log as unknown as ILog);
       const receiver = transferEvent?.args[1].toLowerCase();
       if (receiver != interactionProxyAddress) collector = receiver;
     } catch (err) {}
@@ -47,7 +49,7 @@ export const handleCollect = async (
   ]);
 
   if (!publication || !profile)
-    return console.log(`Failed to fetch data: ${txHash}`);
+    return new Error(`Failed to fetch data: ${txHash}`);
 
   const pubUrl = getPublicationUrl(publication.id);
 

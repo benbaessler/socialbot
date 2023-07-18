@@ -13,7 +13,8 @@ import { captureException } from "@sentry/node";
 
 interface PublicationEmbedOptions {
   id: string;
-  metadata: MetadataFragment | any;
+  // TODO: Define metadata type
+  metadata: any;
   profile: ProfileFragment | Profile;
   appId?: string;
 }
@@ -31,13 +32,14 @@ export const PublicationEmbed = ({
     .setColor(0x00501e)
     .setURL(embedUrl)
     .setAuthor({
-      name: getDisplayName(profile as any),
-      iconURL: getPictureUrl(profile as any),
+      name: getDisplayName(profile),
+      iconURL: getPictureUrl(profile),
       url: getProfileUrl(profile.handle),
     });
 
   if (metadata.content) {
     let { content } = metadata;
+    // Handle content length limit
     if (content.length > 4096) {
       content = content.substring(0, 4093) + "...";
     }
@@ -58,15 +60,16 @@ export const PublicationEmbed = ({
     } catch (err) {
       captureException(`Error parsing media: ${err}`);
     }
-    for (let i = 1; i < media.length; i++) {
+    // @ts-ignore
+    media.forEach((item) => {
       try {
         embeds.push(
-          new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(media[i]))
+          new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(item))
         );
       } catch (err) {
         captureException(`Error parsing media: ${err}`);
       }
-    }
+    });
   }
   return embeds;
 };
@@ -77,7 +80,7 @@ export const MessageContent = (
   targetHandle?: string
 ) => {
   if (!targetHandle) {
-    // Posted, Mirrored, Collected
+    // Posted | Mirrored | Collected
     return `[${action}](${publicationUrl})`;
   } else if (action == "Commented") {
     return `[${action}](${publicationUrl}) on post by [@${targetHandle}](${getProfileUrl(

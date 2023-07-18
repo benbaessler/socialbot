@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
+import { IInstance } from "../types";
 
-const Instance = new Schema({
+const Instance = new Schema<IInstance>({
   guildId: {
     type: String,
     required: true,

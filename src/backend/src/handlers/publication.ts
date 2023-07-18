@@ -6,6 +6,7 @@ import {
   lensHubInterface,
   getPublicationUrl,
 } from "../utils";
+import { ILog } from "../types";
 import {
   getPictureUrl,
   getProfile,
@@ -15,14 +16,14 @@ import {
   getProfileUrl,
 } from "@lens-echo/core";
 import { sendToDiscord } from "./send";
-import { captureException } from "@sentry/node";
+import { Log } from "ethers";
 
 export const handlePublication = async (
   type: "Post" | "Comment",
-  log: any,
+  log: Log,
   txHash: string
 ) => {
-  const decoded = lensHubInterface.parseLog(log);
+  const decoded = lensHubInterface.parseLog(log as unknown as ILog);
   const monitoredProfileIds = await getMonitoredProfileIds();
 
   if (!decoded || !monitoredProfileIds.includes(decoded.args[0].toString()))
@@ -37,17 +38,18 @@ export const handlePublication = async (
       fetch(parsedUri).then((res) => res.json()),
     ]);
 
-    const publicationId = `${profile!.id}-${numberToHex(pubId)}`;
-
-    if (!profile)
-      return console.log(
-        `Invalid profile id: ${profileId}; Transaction: ${txHash}`
+    if (!profile || !metadata) {
+      return new Error(
+        `Failed to fetch data; profileId: ${profileId}; tx: ${txHash}`
       );
+    }
 
-    let targetHandle = undefined;
+    const publicationId = `${profile.id}-${numberToHex(pubId)}`;
+
+    let targetHandle: string | undefined = undefined;
     if (type == "Comment") {
       const pub = (await getPublicationById(pubId)) as CommentFragment;
-      targetHandle = pub.commentOn!.profile.handle;
+      targetHandle = pub.commentOn?.profile.handle;
     }
 
     let content = MessageContent(
@@ -84,10 +86,11 @@ export const handlePublication = async (
             profile: quotedPub.profile,
           })
         );
-      } else
-        captureException(
+      } else {
+        return new Error(
           `Quoted publication not found (tx: ${txHash}; id: ${pubId}; quotedId: ${quotedPost.value})`
         );
+      }
     }
 
     const payload = {
@@ -97,16 +100,14 @@ export const handlePublication = async (
       embeds,
     };
 
-    console.log(`Sending transaction: ${txHash}`);
     await sendToDiscord({
       profileId: profileId.toString(),
       type,
       payload,
     });
-  } catch (err) {
-    console.error(err);
-    captureException(
-      `Error handling publication (tx: ${txHash}; id: ${pubId}): ${err}`
+  } catch (error) {
+    return new Error(
+      `Error handling publication (tx: ${txHash}; id: ${pubId}): ${error}`
     );
   }
 };
