@@ -8,7 +8,7 @@
   "license": "GNU v3",
   "private": true,
   "workspaces": [
-    "src/*",
+    "apps/*",
     "packages/*"
   ],
   "scripts": {
