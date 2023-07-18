@@ -1,14 +1,15 @@
 import {
   LensClient,
   production,
+  development,
   ProfileFragment,
   PublicationFragment,
 } from "@lens-protocol/client";
 import { Profile } from "./generated";
-import { parseUri } from ".";
+import { parseUri, useMainnet } from ".";
 
 export const lensClient = new LensClient({
-  environment: production,
+  environment: useMainnet ? production : development,
 });
 
 export const getProfile = async (

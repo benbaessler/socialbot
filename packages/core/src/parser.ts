@@ -1,4 +1,5 @@
 import { MediaSetFragment } from "@lens-protocol/client";
+import { handleDomain } from "./constants";
 
 export const parseUri = (uri: string): string => {
   if (uri.startsWith("ipfs")) {
@@ -25,7 +26,8 @@ export const numberToHex = (num: number): string => {
   return `0x${hexValue}`;
 };
 
-export const hexToNumber = (hex: string): string => parseInt(hex, 16).toString();
+export const hexToNumber = (hex: string): string =>
+  parseInt(hex, 16).toString();
 
 export const capitalize = (str: string): string =>
   str.replace(/\b\w/g, (char) => char.toUpperCase());
@@ -40,8 +42,8 @@ export const getMediaUrl = (media: MediaSetFragment): string => {
 };
 
 export const parseHandle = (input: string): string => {
-  if (!input.endsWith(".lens") && input != "lensprotocol") {
-    return input + ".lens";
+  if (!input.endsWith(handleDomain) && input != "lensprotocol") {
+    return input + handleDomain;
   }
   return input;
 };
