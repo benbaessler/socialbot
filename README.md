@@ -38,3 +38,7 @@ yarn dev:bot
 ```bash
 yarn dev:backend
 ```
+
+## License
+
+Lens Echo is an open-source software licensed under the [GNU-v3 License](https://github.com/benbaessler/lens-echo/blob/main/LICENSE).
