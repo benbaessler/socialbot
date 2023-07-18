@@ -16,7 +16,6 @@ This monorepo consists of the following **workspaces**:
 | ------- | ---------------------------- |
 | `apps/bot` | The Discord bot for handling commands.|
 | `apps/backend` | Listening to GraphQL + on-chain events for Lens publications. |
-| `packages/core` | A collection of helper functions/constants. |
 
 [MongoDB](https://www.mongodb.com/) is used to store information about feeds, statistics, and version control.<br/>
 
@@ -38,6 +37,9 @@ yarn dev:bot
 ```bash
 yarn dev:backend
 ```
+
+## Contribute
+Any contributors are highly appreciated. Feel free to contribute to this project but please read the [Contributing Guidelines](https://github.com/benbaessler/lens-echo/blob/main/CONTRIBUTING.md) before opening an issue or PR so you understand the branching strategy and local development environment.
 
 ## License
 
