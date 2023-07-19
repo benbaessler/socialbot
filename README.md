@@ -41,6 +41,10 @@ yarn dev:backend
 ## Contribute
 Any contributors are highly appreciated. Feel free to contribute to this project but please read the [Contributing Guidelines](https://github.com/benbaessler/lens-echo/blob/main/CONTRIBUTING.md) before opening an issue or PR so you understand the branching strategy and local development environment.
 
-## License
+## Contact
+Twitter: [@lensechoxyz](https://twitter.com/lensechoxyz)<br/>
+Lens: [@lensecho](https://lensfrens.xyz/lensecho.lens)<br/>
+Email: [hello@lensecho.xyz](mailto:hello@lensecho.xyz)<br/>
 
+## License
 Lens Echo is an open-source software licensed under the [GPL-v3 License](https://github.com/benbaessler/lens-echo/blob/main/LICENSE).
