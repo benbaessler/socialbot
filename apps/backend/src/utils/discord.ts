@@ -61,7 +61,7 @@ export const PublicationEmbed = ({
       captureException(`Error parsing media: ${err}`);
     }
     // @ts-ignore
-    media.forEach((item) => {
+    media.slice(1).forEach((item) => {
       try {
         embeds.push(
           new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(item))
