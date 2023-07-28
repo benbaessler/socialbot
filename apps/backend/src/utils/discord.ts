@@ -30,12 +30,19 @@ export const PublicationEmbed = ({
   const mainEmbed = new EmbedBuilder()
     .setTimestamp()
     .setColor(0x00501e)
-    .setURL(embedUrl)
-    .setAuthor({
+    .setURL(embedUrl);
+
+  try {
+    mainEmbed.setAuthor({
       name: getDisplayName(profile),
       iconURL: getPictureUrl(profile),
       url: getProfileUrl(profile.handle),
     });
+  } catch (err) {
+    captureException(
+      `Error parsing profile: ${err}; ${JSON.stringify(profile)}`
+    );
+  }
 
   if (metadata.content) {
     let { content } = metadata;
