@@ -67,16 +67,18 @@ export const PublicationEmbed = ({
     } catch (err) {
       captureException(`Error parsing media: ${err}`);
     }
-    // @ts-ignore
-    media.slice(1).forEach((item) => {
-      try {
-        embeds.push(
-          new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(item))
-        );
-      } catch (err) {
-        captureException(`Error parsing media: ${err}`);
-      }
-    });
+    if (media.length > 1) {
+      // @ts-ignore
+      media.slice(1).forEach((item) => {
+        try {
+          embeds.push(
+            new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(item))
+          );
+        } catch (err) {
+          captureException(`Error parsing media: ${err}`);
+        }
+      });
+    }
   }
   return embeds;
 };
