@@ -7,6 +7,7 @@ import {
   production,
 } from "@lens-protocol/client";
 import { Profile } from "../generated";
+import Instance from "../models/Instance";
 
 export interface IInstance {
   guildId: string;
@@ -36,6 +37,34 @@ export const handleDomain = useMainnet ? ".lens" : ".test";
 export const lensClient = new LensClient({
   environment: useMainnet ? production : development,
 });
+
+// Run at initialization to account for profile transfers.
+export const updateOwnedBy = async () => {
+  console.log("Running updateOwnedBy");
+  const instances = await Instance.find({});
+  const handles = [...new Set(instances.map((instance) => instance.handle))];
+
+  const profiles = await lensClient.profile.fetchAll({ handles });
+
+  // Update ownedBy field for each instance.
+  for (const instance of instances) {
+    const profile = profiles.items.find(
+      (profile) => profile.handle == instance.handle
+    );
+    if (profile) {
+      if (profile.ownedBy !== instance.ownedBy) {
+        console.log(
+          `Updated ownedBy for ${instance.handle} from ${profile.ownedBy} to ${instance.ownedBy}`
+        );
+      }
+
+      instance.ownedBy = profile.ownedBy;
+      await instance.save();
+    }
+  }
+
+  console.log("Finished updateOwnedBy");
+};
 
 export const getProfile = async (
   profileId: string

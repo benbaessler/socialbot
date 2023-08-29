@@ -12,6 +12,7 @@ import {
   startListener,
 } from "./handlers";
 import { init } from "@sentry/node";
+import { updateOwnedBy } from "./utils";
 require("dotenv").config();
 
 const app = express();
@@ -139,10 +140,16 @@ app.get("/new-collect", (request: Request, response: Response) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, async () => {
+
   init({ dsn: process.env.SENTRY_DSN });
+
   await mongoose.connect(dbConnectionString!);
   console.log("Connected to Database");
   console.log("Running on port", port);
+
+  // Update owned wallet addresses for profiles.
+  await updateOwnedBy();
+
   startListener();
 });
 
