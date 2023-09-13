@@ -66,7 +66,7 @@ export const getDisplayName = (profile: ProfileFragment | Profile): string =>
   profile.name ? `${profile.name} (@${profile.handle})` : `@${profile.handle}`;
 
 export const getProfileUrl = (handle: string): string =>
-  `https://lensfrens.xyz/${handle}`;
+  `https://share.lens.xyz/u/${handle}`;
 
 export const getDefaultProfile = async (
   address: string

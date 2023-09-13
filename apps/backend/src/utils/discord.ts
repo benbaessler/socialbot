@@ -103,4 +103,4 @@ export const MessageContent = (
 };
 
 export const getPublicationUrl = (publicationId: string) =>
-  `https://lensvert.xyz/p/${publicationId}`;
+  `https://share.lens.xyz/p/${publicationId}`;
