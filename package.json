@@ -18,7 +18,7 @@
     "start:bot": "yarn workspace bot start",
     "start:backend": "yarn workspace backend start"
   },
-  "devDependencies": {
+  "dependencies": {
     "concurrently": "^8.2.1"
   }
 }
