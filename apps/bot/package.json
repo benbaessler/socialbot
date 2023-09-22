@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "GNU v3",
   "scripts": {
-    "build": "tsc",
-    "start": "node public/index.js",
+    "start": "tsc && node public/index.js",
     "dev": "ts-node src/index.ts",
     "deploy:commands": "ts-node src/deploy-commands.ts",
     "test": "ts-node src/tests/index.ts"

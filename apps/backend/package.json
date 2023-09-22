@@ -4,10 +4,9 @@
   "main": "index.js",
   "license": "GNU v3",
   "scripts": {
-    "start": "node public/index.js",
+    "start": "tsc && node public/index.js",
     "dev": "ts-node src/index.ts",
-    "test": "ts-node src/tests/index.ts",
-    "build": "tsc"
+    "test": "ts-node src/tests/index.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.7.14",
