@@ -1,6 +1,5 @@
 import {
   LensClient,
-  MediaSetFragment,
   ProfileFragment,
   PublicationFragment,
   development,
@@ -106,7 +105,7 @@ export const hexToNumber = (hex: string): string =>
 export const capitalize = (str: string): string =>
   str.replace(/\b\w/g, (char) => char.toUpperCase());
 
-export const getMediaUrl = (media: MediaSetFragment): string => {
+export const getMediaUrl = (media: any): string => {
   const item = media as any;
   try {
     return parseUri(item.item);
