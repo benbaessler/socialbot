@@ -8,7 +8,7 @@ export const MIRROR_SIGNING_KEY = process.env.MIRROR_SIGNING_KEY!;
 export const COLLECT_SIGNING_KEY = process.env.COLLECT_SIGNING_KEY!;
 
 export const SENTRY_DSN = process.env.SENTRY_DSN!;
-export const PORT = process.env.PORT!;
+export const PORT = process.env.PORT || 3000;
 
 export const interactionProxyAddress = useMainnet
   ? "0xcbea63064afbfab509c33f9843fd8e08336d5971"

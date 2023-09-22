@@ -145,13 +145,12 @@ app.get("/new-collect", (request: Request, response: Response) => {
   response.send("Health check OK");
 });
 
-const port = PORT || 3000;
-app.listen(port, async () => {
+app.listen(PORT, async () => {
   init({ dsn: SENTRY_DSN });
 
   await mongoose.connect(dbConnectionString!);
   console.log("Connected to Database");
-  console.log("Running on port", port);
+  console.log("Running on port", PORT);
   startListener();
 });
 
