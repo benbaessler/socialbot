@@ -10,7 +10,6 @@ import {
   MIRROR_SIGNING_KEY,
   COLLECT_SIGNING_KEY,
   SENTRY_DSN,
-  PORT,
   topics, 
   dbConnectionString 
 } from "./constants";
@@ -21,6 +20,7 @@ import {
   startListener,
 } from "./handlers";
 import { init } from "@sentry/node";
+require("dotenv").config();
 
 const app = express();
 
@@ -145,12 +145,13 @@ app.get("/new-collect", (request: Request, response: Response) => {
   response.send("Health check OK");
 });
 
-app.listen(PORT, async () => {
+const port = process.env.PORT || 3000;
+app.listen(port, async () => {
   init({ dsn: SENTRY_DSN });
 
   await mongoose.connect(dbConnectionString!);
   console.log("Connected to Database");
-  console.log("Running on port", PORT);
+  console.log("Running on port", port);
   startListener();
 });
 
