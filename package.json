@@ -12,9 +12,13 @@
     "packages/*"
   ],
   "scripts": {
+    "start": "concurrently \"yarn workspace bot start\" \"yarn workspace backend start\"",
     "dev:bot": "yarn workspace bot dev",
     "dev:backend": "yarn workspace backend dev",
     "start:bot": "yarn workspace bot start",
     "start:backend": "yarn workspace backend start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1"
   }
 }
