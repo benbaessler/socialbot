@@ -1,4 +1,6 @@
-require("dotenv").config();
+require("dotenv").config({ path: '../../.env' });
+
+export const SENTRY_DSN = process.env.SENTRY_DSN;
 
 export const colors = {
   main: 0x00501e,

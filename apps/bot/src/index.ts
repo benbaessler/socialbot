@@ -1,10 +1,10 @@
 import start from "./bot";
 import deployCommands from "./deploy-commands";
 import { init } from "@sentry/node";
-import { useMainnet } from "./constants";
+import { useMainnet, SENTRY_DSN } from "./constants";
 
 const main = async () => {
-  if (useMainnet) init({ dsn: process.env.SENTRY_DSN });
+  if (useMainnet) init({ dsn: SENTRY_DSN });
   await deployCommands();
   await start();
 

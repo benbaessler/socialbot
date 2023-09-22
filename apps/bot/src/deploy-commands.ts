@@ -2,7 +2,6 @@ import { REST, Routes } from "discord.js";
 import fs from "fs";
 import path from "path";
 import { token, clientId } from "./constants";
-require("dotenv").config();
 
 export default async function deployCommands() {
   const commands = [];

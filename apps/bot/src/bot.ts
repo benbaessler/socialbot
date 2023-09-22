@@ -1,9 +1,7 @@
 import { initializeEvents } from "./handlers/events";
 import mongoose from "mongoose";
 import { Client, GatewayIntentBits } from "discord.js";
-import { config } from "dotenv";
 import { token, useMainnet, dbConnectionString } from "./constants";
-config();
 
 export const client = new Client({
   intents: [
