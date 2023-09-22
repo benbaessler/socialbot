@@ -1,6 +1,14 @@
-require("dotenv").config();
+require("dotenv").config({ path: '../../.env' });
 
 export const useMainnet: boolean = process.env.USE_MAINNET == "true";
+
+export const POST_SIGNING_KEY = process.env.POST_SIGNING_KEY!;
+export const COMMENT_SIGNING_KEY = process.env.COMMENT_SIGNING_KEY!;
+export const MIRROR_SIGNING_KEY = process.env.MIRROR_SIGNING_KEY!;
+export const COLLECT_SIGNING_KEY = process.env.COLLECT_SIGNING_KEY!;
+
+export const SENTRY_DSN = process.env.SENTRY_DSN!;
+export const PORT = process.env.PORT!;
 
 export const interactionProxyAddress = useMainnet
   ? "0xcbea63064afbfab509c33f9843fd8e08336d5971"
@@ -35,8 +43,8 @@ export const appIcons: { [key: string]: string } = {
 };
 
 export const dbConnectionString = useMainnet
-  ? process.env.DB_CONN_STRING
-  : process.env.DB_CONN_STRING_TEST;
+  ? process.env.DB_CONN_STRING!
+  : process.env.DB_CONN_STRING_TEST!;
 
 export const ipfsGateway = "https://ipfs.io/ipfs/";
 export const arweaveGateway = "https://arweave.net/";

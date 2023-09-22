@@ -4,7 +4,16 @@ import { Log } from "ethers";
 import express, { Request, Response } from "express";
 import crypto from "crypto";
 import mongoose from "mongoose";
-import { topics, dbConnectionString } from "./constants";
+import { 
+  POST_SIGNING_KEY,
+  COMMENT_SIGNING_KEY,
+  MIRROR_SIGNING_KEY,
+  COLLECT_SIGNING_KEY,
+  SENTRY_DSN,
+  PORT,
+  topics, 
+  dbConnectionString 
+} from "./constants";
 import {
   handlePublication,
   handleMirror,
@@ -12,7 +21,6 @@ import {
   startListener,
 } from "./handlers";
 import { init } from "@sentry/node";
-require("dotenv").config();
 
 const app = express();
 
@@ -47,7 +55,7 @@ app.post(
     const body = authenticateRequest(
       request,
       response,
-      process.env.POST_SIGNING_KEY!
+      POST_SIGNING_KEY
     );
 
     await handlePublication(
@@ -71,7 +79,7 @@ app.post(
     const body = authenticateRequest(
       request,
       response,
-      process.env.COMMENT_SIGNING_KEY!
+      COMMENT_SIGNING_KEY
     );
 
     await handlePublication(
@@ -95,7 +103,7 @@ app.post(
     const body = authenticateRequest(
       request,
       response,
-      process.env.MIRROR_SIGNING_KEY!
+      MIRROR_SIGNING_KEY
     );
 
     await handleMirror(
@@ -118,7 +126,7 @@ app.post(
     const body = authenticateRequest(
       request,
       response,
-      process.env.COLLECT_SIGNING_KEY!
+      COLLECT_SIGNING_KEY
     );
 
     await handleCollect(
@@ -137,9 +145,10 @@ app.get("/new-collect", (request: Request, response: Response) => {
   response.send("Health check OK");
 });
 
-const port = process.env.PORT || 3000;
+const port = PORT || 3000;
 app.listen(port, async () => {
-  init({ dsn: process.env.SENTRY_DSN });
+  init({ dsn: SENTRY_DSN });
+
   await mongoose.connect(dbConnectionString!);
   console.log("Connected to Database");
   console.log("Running on port", port);
