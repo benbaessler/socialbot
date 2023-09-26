@@ -13,6 +13,7 @@ export interface IInstance {
   handle: string;
   profileId: string;
   ownedBy: string;
+  includeComments: boolean;
   includeMirrors: boolean;
   includeInteractions: boolean;
   mention: boolean;

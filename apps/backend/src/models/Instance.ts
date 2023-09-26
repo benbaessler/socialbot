@@ -22,6 +22,10 @@ const Instance = new Schema<IInstance>({
     type: String,
     required: true,
   },
+  includeComments: {
+    type: Boolean,
+    required: true,
+  },
   includeMirrors: {
     type: Boolean,
     required: true,
