@@ -31,6 +31,12 @@ const data = new SlashCommandBuilder()
   )
   .addBooleanOption((option) =>
     option
+      .setName("comments")
+      .setDescription("Include comments?")
+      .setRequired(true)
+  )
+  .addBooleanOption((option) =>
+    option
       .setName("mirrors")
       .setDescription("Include mirrored posts?")
       .setRequired(true)
@@ -51,6 +57,7 @@ const data = new SlashCommandBuilder()
 const execute = async (interaction: ChatInputCommandInteraction) => {
   const handle = parseHandle(interaction.options.getString("handle")!);
   const channel = interaction.options.getChannel("channel")! as TextChannel;
+  const includeComments = interaction.options.getBoolean("comments")!;
   const includeMirrors = interaction.options.getBoolean("mirrors")!;
   const includeInteractions = interaction.options.getBoolean("collects")!;
   const mention = interaction.options.getBoolean("mention")!;
@@ -104,6 +111,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 
   const newInstance = new Instance({
     ...query,
+    includeComments,
     includeMirrors,
     includeInteractions,
     mention,
