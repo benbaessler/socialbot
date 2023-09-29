@@ -25,13 +25,14 @@ export const listEmbedContent = (monitors: IInstance[]) => {
 
   return Object.values(groupedMonitors)
     .map((group: any) => {
-      const { handle, mention, includeMirrors, includeInteractions } = group[0];
+      const { handle, mention, includeComments, includeMirrors, includeInteractions } = group[0];
       const channels = group
         .map((monitor: IInstance) => `<#${monitor.channelId}>`)
         .join(" ");
 
       return `**[@${parseHandle(handle)}](${getProfileUrl(handle)})**
 Mentions: **${mention ? "Everyone" : "Off"}**
+Comments: **${includeComments ? "Included" : "No"}**
 Mirrors: **${includeMirrors ? "Included" : "No"}**
 Collects: **${includeInteractions ? "Included" : "No"}**
 Channel(s): ${channels}\n`;

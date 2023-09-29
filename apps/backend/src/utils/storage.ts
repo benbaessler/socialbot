@@ -21,6 +21,12 @@ export const isMonitoredAddress = async (address: string) => {
 export const getInstances = async (profileId: string) =>
   await Instance.find({ profileId });
 
+export const getInstancesWithComments = async (profileId: string) =>
+  await Instance.find({
+    profileId,
+    includeComments: true,
+  });
+
 export const getInstancesWithMirrors = async (profileId: string) =>
   await Instance.find({
     profileId,

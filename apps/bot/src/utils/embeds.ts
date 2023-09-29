@@ -86,6 +86,7 @@ export const UnfollowEmbed = (handle: string, channelId: string) => {
 export const EditEmbed = (
   handle: string,
   channelId: string,
+  includeComments: boolean,
   includeMirrors: boolean,
   includeInteractions: boolean,
   mention: boolean
@@ -97,6 +98,7 @@ export const EditEmbed = (
     handle
   )})** will now be monitored in <#${channelId}> with the following settings:
 Mentions: **${mention ? "Everyone" : "Off"}**
+Comments: **${includeComments ? "Included" : "No"}**
 Mirrors: **${includeMirrors ? "Included" : "No"}**
 Collects: **${includeInteractions ? "Included" : "No"}**`);
 
