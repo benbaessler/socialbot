@@ -74,6 +74,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   }
 
   const update = await Instance.updateOne(query, {
+    includeComments,
     includeMirrors,
     includeInteractions,
     mention,
