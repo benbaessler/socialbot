@@ -28,8 +28,8 @@ export const graphEndpoint = useMainnet
   : "wss://api-mumbai.lens.dev";
 
 export const appIcons: { [key: string]: string } = {
-  lenster:
-    "https://pbs.twimg.com/profile_images/1556882055379636224/4g4orntN_400x400.jpg",
+  hey:
+    "https://hey.xyz/logo.png",
   orb: "https://assets-global.website-files.com/6364e65656ab107e465325d2/637adce0f72214c270ffa76e_JQtTVb7vwFnUVbc9IshTcAUewaoeO8Up_B6pqkeRFGA.jpeg",
   phaver:
     "https://play-lh.googleusercontent.com/zvGNd9l1io5wL0SVxzqIrMzA0bRoO8Dsxmam8rj_KYZSi7hxg8L7VS-_HO2HxM3k9ak",
