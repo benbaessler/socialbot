@@ -17,7 +17,7 @@ export const getProfileByHandle = async (
   await lensClient.profile.fetch({ handle });
 
 export const getProfileUrl = (handle: string): string =>
-  `https://lensfrens.xyz/${handle}`;
+  `https://share.lens.xyz/u/${handle}`;
 
 export const handleDomain = useMainnet ? ".lens" : ".test";
 

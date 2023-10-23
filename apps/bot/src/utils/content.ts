@@ -7,7 +7,7 @@ export const helpEmbedContent = `Lens Echo allows you to receive real-time updat
 • \`/edit\` - Edit the preferences of a Lens profile monitor.
 • \`/list\` - See all profiles being monitored in your server.
 
-*Built with :heart: by [Ben Baessler](https://lensfrens.xyz/benbaessler.lens)*`;
+*Built with :heart: by [Ben Baessler](https://share.lens.xyz/u/benbaessler.lens)*`;
 
 export const listEmbedContent = (monitors: IInstance[]) => {
   if (monitors.length === 0) {
