@@ -29,12 +29,12 @@ export const PublicationEmbed = ({
 
   const mainEmbed = new EmbedBuilder()
     .setTimestamp()
-    .setColor(0x00501e)
+    .setColor(0x2b2d31)
     .setURL(embedUrl);
 
   try {
     mainEmbed.setAuthor({
-      name: getDisplayName(profile),
+      name: `${getDisplayName(profile)} • Social Bot`,
       iconURL: getPictureUrl(profile),
       url: getProfileUrl(profile.handle),
     });
