@@ -24,7 +24,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
         .catch(() => Instance.deleteMany({ channelId }))
     ),
     interaction.reply({
-      embeds: [ListEmbed(monitors)],
+      embeds: [await ListEmbed(monitors)],
       ephemeral: true,
     }),
     Stats.updateOne(

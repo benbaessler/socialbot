@@ -8,11 +8,17 @@ import {
 import { colors, icons } from "../constants";
 import VersionManager from "../models/VersionManager";
 
-export const ListEmbed = (monitors: IInstance[]) =>
-  new EmbedBuilder()
+export const ListEmbed = async (monitors: IInstance[]) => {
+  const [version] = await VersionManager.find({});
+  return new EmbedBuilder()
     .setTitle(`Monitored profiles in this server (${monitors.length})`)
     .setDescription(listEmbedContent(monitors))
-    .setColor(colors.main);
+    .setColor(colors.main)
+    .setFooter({
+      text: `Social Bot (v${version.version})`,
+      iconURL: icons.logo,
+    });
+}
 
 export const FollowEmbed = (handle: string, channelId: string) => {
   return new EmbedBuilder()
