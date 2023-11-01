@@ -34,7 +34,7 @@ export const PublicationEmbed = ({
 
   try {
     mainEmbed.setAuthor({
-      name: `${getDisplayName(profile)} • Social Bot`,
+      name: getDisplayName(profile),
       iconURL: getPictureUrl(profile),
       url: getProfileUrl(profile.handle),
     });
