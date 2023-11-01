@@ -8,11 +8,17 @@ import {
 import { colors, icons } from "../constants";
 import VersionManager from "../models/VersionManager";
 
-export const ListEmbed = (monitors: IInstance[]) =>
-  new EmbedBuilder()
+export const ListEmbed = async (monitors: IInstance[]) => {
+  const [version] = await VersionManager.find({});
+  return new EmbedBuilder()
     .setTitle(`Monitored profiles in this server (${monitors.length})`)
     .setDescription(listEmbedContent(monitors))
-    .setColor(colors.main);
+    .setColor(colors.main)
+    .setFooter({
+      text: `Social Bot (v${version.version})`,
+      iconURL: icons.logo,
+    });
+}
 
 export const FollowEmbed = (handle: string, channelId: string) => {
   return new EmbedBuilder()
@@ -50,7 +56,7 @@ export const ErrorFollowEmbed = (
     case "webhook":
       content = {
         name: "Webhook error",
-        description: `An error occurred while trying to create a webhook for <#${channelId}>. Please ensure that Lens Echo has permission to manage webhooks on this server.`,
+        description: `An error occurred while trying to create a webhook for <#${channelId}>. Please ensure that Social Bot has permission to manage webhooks on this server.`,
       };
       break;
     default:
@@ -121,7 +127,7 @@ export const ErrorEmbed = () => {
       iconURL: icons.error,
     })
     .setDescription(
-      `An unknown error occurred. Please try again, or [contact us](mailto:hello@lensecho.xyz) for help.`
+      `An unknown error occurred. Please try again, or [report a bug](https://github.com/benbaessler/socialbot/issues).`
     )
     .setColor(colors.error);
 };
@@ -130,10 +136,10 @@ export const HelpEmbed = async () => {
   const [version] = await VersionManager.find({});
   return new EmbedBuilder()
     .setColor(colors.main)
-    .setTitle("Quickstart :herb:")
+    .setTitle("Quickstart")
     .setDescription(helpEmbedContent)
     .setFooter({
-      text: `Lens Echo v${version.version}`,
+      text: `Social Bot (v${version.version})`,
       iconURL: icons.logo,
     });
 };

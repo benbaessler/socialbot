@@ -1,13 +1,11 @@
 import { getProfileUrl, parseHandle, IInstance } from ".";
 
-export const helpEmbedContent = `Lens Echo allows you to receive real-time updates from any Lens profile in your Discord server. **Here is a summary of the commands**:
+export const helpEmbedContent = `Social Bot allows you to receive real-time updates from any Lens profile in your Discord server. **Here is a summary of available commands**:
 
 • \`/follow\` - Add a Lens profile to be monitored in your server.
 • \`/unfollow\` - Remove a Lens profile from the feed.
 • \`/edit\` - Edit the preferences of a Lens profile monitor.
-• \`/list\` - See all profiles being monitored in your server.
-
-*Built with :heart: by [Ben Baessler](https://share.lens.xyz/u/benbaessler.lens)*`;
+• \`/list\` - See all profiles being monitored in your server.`;
 
 export const listEmbedContent = (monitors: IInstance[]) => {
   if (monitors.length === 0) {

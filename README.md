@@ -1,12 +1,12 @@
 <div align="center">
-    <img src="https://i.imgur.com/l5NzmI1.png" alt="banner">
-    <h1>Lens Echo</h1>
-    <p>The first Web3 social interface on Discord.</p>
-    <a href="https://lensecho.xyz">lensecho.xyz</a>
+    <img src="https://i.imgur.com/ulIxJV8.png" alt="banner">
+    <h1>Social Bot</h1>
+    <p>All-In-One Web3 social interface on Discord.</p>
+    <a href="https://socialbot.gg">socialbot.gg</a>
 </div>
 
 ## About
-Lens Echo is a Discord bot that can monitor Lens profiles in real time. Receive customizable notifications for **new posts, comments, mirrors, and collects**. Users can also manage their bot activities and view usage statistics via the [web dashboard](https://dashboard.lensecho.xyz).
+Social Bot is a Discord bot that can monitor Lens profiles in real time. Receive customizable notifications for **new posts, comments, mirrors, and collects**. Users can also manage their bot activities and view usage statistics via the [web dashboard](https://dashboard.socialbot.gg).
 
 ## How does it work?
 
@@ -39,12 +39,11 @@ yarn dev:backend
 ```
 
 ## Contribute
-Any contributors are highly appreciated. Feel free to contribute to this project but please read the [Contributing Guidelines](https://github.com/benbaessler/lens-echo/blob/main/CONTRIBUTING.md) before opening an issue or PR so you understand the branching strategy and local development environment.
+Any contributors are highly appreciated. Feel free to contribute to this project but please read the [Contributing Guidelines](https://github.com/benbaessler/socialbot/blob/main/CONTRIBUTING.md) before opening an issue or PR so you understand the branching strategy and local development environment.
 
 ## Contact
-Twitter: [@lensechoxyz](https://twitter.com/lensechoxyz)<br/>
-Lens: [@lensecho](https://lensfrens.xyz/lensecho.lens)<br/>
-Email: [hello@lensecho.xyz](mailto:hello@lensecho.xyz)<br/>
+Twitter: [@socialbotgg](https://twitter.com/socialbotgg)<br/>
+Lens: [@socialbot](https://share.lens.xyz/u/lensecho.lens)<br/>
 
 ## License
-Lens Echo is an open-source software licensed under the [GPL-v3 License](https://github.com/benbaessler/lens-echo/blob/main/LICENSE).
+Social Bot is an open-source software licensed under the [GPL-v3 License](https://github.com/benbaessler/socialbot/blob/main/LICENSE).

@@ -4,7 +4,7 @@ import Stats from "../models/Stats";
 
 const data = new SlashCommandBuilder()
   .setName("help")
-  .setDescription("View the Lens Echo Quickstart Guide.");
+  .setDescription("View the Social Bot Quickstart Guide.");
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
   await Promise.all([
