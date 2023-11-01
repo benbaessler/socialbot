@@ -3,13 +3,13 @@ require("dotenv").config({ path: '../../.env' });
 export const SENTRY_DSN = process.env.SENTRY_DSN;
 
 export const colors = {
-  main: 0x00501e,
+  main: 0x2b2d31,
   success: 0x0ec924,
   error: 0xff0000,
 };
 
 export const icons = {
-  logo: "https://i.imgur.com/t2bjdAt.png",
+  logo: "https://i.imgur.com/GGXvzmz.png",
   error: "https://i.imgur.com/gcKxdFO.png",
   success: "https://i.imgur.com/p8QxqB2.png",
 };
