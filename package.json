@@ -1,9 +1,8 @@
 {
-  "name": "lens-echo",
-  "version": "1.2.5",
-  "description": "The first Web3 social interface on Discord. Built with Lens Protocol.",
-  "main": "index.js",
-  "repository": "https://github.com/benbaessler/lens-echo",
+  "name": "socialbot",
+  "version": "1.5.0",
+  "description": "All-In-One Web3 Social interface on Discord. Built with Lens Protocol.",
+  "repository": "https://github.com/benbaessler/socialbot",
   "author": "Ben Baessler",
   "license": "GNU v3",
   "private": true,
