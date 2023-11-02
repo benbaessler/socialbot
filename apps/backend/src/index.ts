@@ -130,7 +130,7 @@ app.post(
     );
 
     await handleCollect(
-      body.transaction.logs.find((log: Log) => log.topics[0] == topics.collect),
+      body.transaction.logs.find((log: Log) => log.topics[0] == topics.act),
       body.transaction.logs.filter(
         (log: any) => log.topics[0] == topics.transfer
       ),

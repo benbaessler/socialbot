@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import { ProfileFragment, MetadataFragment } from "@lens-protocol/client";
+import { ProfileFragment } from "@lens-protocol/client";
 import {
   getPictureUrl,
   getDisplayName,
@@ -29,25 +29,16 @@ export const PublicationEmbed = ({
 
   const mainEmbed = new EmbedBuilder()
     .setTimestamp()
-    .setColor(0x2b2d31)
-    .setURL(embedUrl);
-
-  try {
-    mainEmbed.setAuthor({
+    .setColor(0x00501e)
+    .setURL(embedUrl)
+    .setAuthor({
       name: getDisplayName(profile),
       iconURL: getPictureUrl(profile),
-      url: getProfileUrl(profile.handle),
+      url: getProfileUrl(profile.handle.localName),
     });
-  } catch (err) {
-    captureException(
-      `Error parsing profile: ${err}; ${JSON.stringify(profile)}`
-    );
-  }
 
-  let isGated = false;
   if (metadata.content) {
     let { content } = metadata;
-    if (content == "This publication is gated") isGated = true;
     // Handle content length limit
     if (content.length > 4096) {
       content = content.substring(0, 4093) + "...";
@@ -62,23 +53,23 @@ export const PublicationEmbed = ({
     });
 
   const embeds = [mainEmbed];
-  if (!isGated) {
-    const media = metadata.media;
-    if (media && media.length > 0) {
+  const media = metadata.media;
+  if (media && media.length > 0) {
+    try {
+      mainEmbed.setImage(getMediaUrl(media[0]));
+    } catch (err) {
+      captureException(`Error parsing media: ${err}`);
+    }
+    // @ts-ignore
+    media.slice(1).forEach((item) => {
       try {
-        mainEmbed.setImage(getMediaUrl(media[0]));
-        if (media.length > 1) {
-          // @ts-ignore
-          media.slice(1).forEach((item) => {
-            embeds.push(
-              new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(item))
-            );
-          });
-        }
+        embeds.push(
+          new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(item))
+        );
       } catch (err) {
         captureException(`Error parsing media: ${err}`);
       }
-    }
+    });
   }
   return embeds;
 };
@@ -86,7 +77,7 @@ export const PublicationEmbed = ({
 export const MessageContent = (
   action: string,
   publicationUrl: string,
-  targetHandle?: string
+  targetHandle?: string | null
 ) => {
   if (!targetHandle) {
     // Posted | Mirrored | Collected

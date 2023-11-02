@@ -31,13 +31,16 @@ export const handleMirror = async (log: Log, txHash: string) => {
       );
 
     const payload = {
-      username: publication.profile.name ?? publication.profile.handle,
-      avatar_url: getPictureUrl(publication.profile as any),
+      username:
+        publication.by.metadata?.displayName ??
+        publication.by.handle?.localName ??
+        publication.by.id,
+      avatar_url: getPictureUrl(publication.by),
       content: MessageContent("Mirrored", getPublicationUrl(publication.id)),
       embeds: PublicationEmbed({
         id: publication.id,
-        metadata: publication.mirrorOf.metadata,
-        profile: publication.mirrorOf.profile,
+        metadata: publication.mirrorOn.metadata,
+        profile: publication.mirrorOn.by,
       }),
     };
 

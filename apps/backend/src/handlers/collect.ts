@@ -52,13 +52,14 @@ export const handleCollect = async (
   const pubUrl = getPublicationUrl(publication.id);
 
   const payload = {
-    username: profile.name ?? profile.handle,
+    username:
+      profile.metadata?.displayName ?? profile.handle?.localName ?? profile.id,
     avatar_url: getPictureUrl(profile),
     content: MessageContent("Collected", pubUrl),
     embeds: PublicationEmbed({
       id: publication.id,
       metadata: publication.metadata,
-      profile: publication.profile,
+      profile: publication.by,
     }),
   };
 

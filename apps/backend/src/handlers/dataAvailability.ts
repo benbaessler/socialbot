@@ -19,6 +19,7 @@ import {
   CommentFragment,
   MirrorFragment,
   PostFragment,
+  QuoteFragment,
 } from "@lens-protocol/client";
 
 class CustomWebSocket extends WebSocket {
@@ -32,6 +33,7 @@ class CustomWebSocket extends WebSocket {
 }
 
 export const startListener = () => {
+  console.log(graphEndpoint);
   const link = new WebSocketLink({
     uri: graphEndpoint,
     options: {
@@ -56,8 +58,11 @@ export const startListener = () => {
 export const handleDAPublication = async (
   data: DataAvailabilityTransactionUnion
 ) => {
+  console.log("New pub:", data);
+
   const monitoredHandles = await getMonitoredHandles();
-  if (!data || !monitoredHandles.includes(data.profile.handle)) return;
+  if (!data || !monitoredHandles.includes(data.profile.handle.localName))
+    return;
 
   const publication = await getPublicationById(data.publicationId);
 
@@ -65,55 +70,57 @@ export const handleDAPublication = async (
     return new Error(`Publication not found: ${data.publicationId}`);
   }
 
-  const profile = publication.profile;
+  const profile = publication.by;
   const post =
-    publication.__typename == "Mirror" ? publication.mirrorOf : publication;
+    publication.__typename == "Mirror" ? publication.mirrorOn : publication;
   const type = publication.__typename;
   const publicationUrl = getPublicationUrl(post.id);
-  const targetHandle =
-    type == "Comment"
-      ? (post as CommentFragment).commentOn!.profile.handle
-      : undefined;
 
-  let content = MessageContent(type + "ed", publicationUrl, targetHandle);
+  const targetHandle = () => {
+    if (type !== "Comment" || !(post as CommentFragment).commentOn!.by.handle)
+      return null;
+
+    return (post as CommentFragment).commentOn!.by.handle?.localName ?? null;
+  };
+
+  let content = MessageContent(type + "ed", publicationUrl, targetHandle());
   const embeds = PublicationEmbed({
     id: post.id,
     appId: data.appId,
     metadata: post.metadata,
     profile:
-      type == "Mirror"
-        ? (publication as MirrorFragment).mirrorOf.profile
-        : profile,
+      type == "Mirror" ? (publication as MirrorFragment).mirrorOn.by : profile,
   });
 
-  const quotedPost = post.metadata.attributes.find(
-    // @ts-ignore
-    (attribute) => attribute.traitType == "quotedPublicationId"
-  );
+  const quotedPost =
+    publication.__typename == "Quote"
+      ? (publication as QuoteFragment).quoteOn
+      : null;
 
   if (quotedPost) {
     let quotedPub = (await getPublicationById(
-      quotedPost.value!
+      quotedPost.id
     )) as PostFragment | null;
 
     if (quotedPub) {
-      const quotedHandle = quotedPub.profile.handle;
+      const quotedHandle = quotedPub.by.handle?.localName;
       content = MessageContent("Quoted", publicationUrl, quotedHandle);
       embeds.push(
         ...PublicationEmbed({
           id: quotedPub.id,
           metadata: quotedPub.metadata,
-          profile: quotedPub.profile,
+          profile: quotedPub.by,
         })
       );
     } else
       throw new Error(
-        `Quoted publication not found (id: ${publication.id}; quotedId: ${quotedPost.value})`
+        `Quoted publication not found (id: ${publication.id}; quotedId: ${quotedPost.id})`
       );
   }
 
   const payload = {
-    username: `${profile.name ?? profile.handle} • Social Bot`,
+    username:
+      profile.metadata?.displayName ?? profile.handle?.localName ?? profile.id,
     avatar_url: getPictureUrl(profile),
     content,
     embeds,

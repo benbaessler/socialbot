@@ -47,7 +47,8 @@ export const handlePublication = async (
     let targetHandle: string | undefined = undefined;
     if (type == "Comment") {
       const pub = (await getPublicationById(pubId)) as CommentFragment;
-      targetHandle = pub.commentOn?.profile.handle;
+      targetHandle =
+        pub.commentOn?.by.handle?.localName ?? pub.commentOn?.by.id;
     }
 
     let content = MessageContent(
@@ -73,7 +74,7 @@ export const handlePublication = async (
       )) as PostFragment | null;
 
       if (quotedPub) {
-        const quotedHandle = quotedPub.profile.handle;
+        const quotedHandle = quotedPub.by.handle?.localName ?? quotedPub.by.id;
         content = `[Quoted](${getPublicationUrl(
           publicationId
         )}) [@${quotedHandle}](${getProfileUrl(quotedHandle)})`;
@@ -81,7 +82,7 @@ export const handlePublication = async (
           ...PublicationEmbed({
             id: quotedPub.id,
             metadata: quotedPub.metadata,
-            profile: quotedPub.profile,
+            profile: quotedPub.by,
           })
         );
       } else {
@@ -92,7 +93,10 @@ export const handlePublication = async (
     }
 
     const payload = {
-      username: `${profile.name ?? profile.handle} • Social Bot`,
+      username:
+        profile.metadata?.displayName ??
+        profile.handle?.localName ??
+        profile.id,
       avatar_url: getPictureUrl(profile),
       content,
       embeds,
