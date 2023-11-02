@@ -15,17 +15,20 @@ export const interactionProxyAddress = useMainnet
   : "";
 
 export const topics = {
-  post: "0xc672c38b4d26c3c978228e99164105280410b144af24dd3ed8e4f9d211d96a50",
-  comment: "0x7b4d1aa33773161799847429e4fbf29f56dbf1a3fe815f5070231cbfba402c37",
-  mirror: "0x9ea5dedb85bd9da4e264ee5a39b7ba0982e5d4d035d55edfa98a36b00e770b5a",
-  collect: "0xed39bf0d9afa849610b901c9d7f4d00751ba20de2db023428065bec153833218",
+  post: "0xe18912378f90aa372fc9ab7ab5ff7e4744182bdef133ccad56d5a18864456742",
+  comment: "0x6730c5edd594025e9d1057522801addabbb26fe8ec0acb70a658002f75684388",
+  mirror: "0x19822529a03d77bbe525763dd7064f5c182a5ede1bdd88e73a07221d3f3feb6d",
+  act: "0x61f8aa74c55cf20b1d5e4f2f6531f66747a0bbbc7696cbb2844738feb8300aad",
+  collect: "0x4b220a4de1946418b442a3659c114b9f74ed61e23509c34f97bbe8f2f1d645e0",
   transfer:
     "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+  // not used currently
+  follow: "0x817d2c71a3ec35dc50f2e4b0d890943c89f2a7ab9d96eff233eda4932b506d0b"
 };
 
 export const graphEndpoint = useMainnet
   ? "wss://api.lens.dev"
-  : "wss://api-mumbai.lens.dev";
+  : "wss://api-v2-mumbai.lens.dev";
 
 export const appIcons: { [key: string]: string } = {
   hey:
