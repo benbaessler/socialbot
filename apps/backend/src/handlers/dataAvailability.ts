@@ -113,7 +113,7 @@ export const handleDAPublication = async (
   }
 
   const payload = {
-    username: profile.name ?? profile.handle,
+    username: `${profile.name ?? profile.handle} • Social Bot`,
     avatar_url: getPictureUrl(profile),
     content,
     embeds,
