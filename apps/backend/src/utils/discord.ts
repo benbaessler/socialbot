@@ -8,13 +8,12 @@ import {
   capitalize,
 } from ".";
 import { appIcons } from "../constants";
-import { Profile } from "../generated";
+import type { Profile, PublicationMetadata } from "../generated";
 import { captureException } from "@sentry/node";
 
 interface PublicationEmbedOptions {
   id: string;
-  // TODO: Define metadata type
-  metadata: any;
+  metadata: PublicationMetadata;
   profile: ProfileFragment | Profile;
   appId?: string;
 }
@@ -34,7 +33,7 @@ export const PublicationEmbed = ({
     .setAuthor({
       name: getDisplayName(profile),
       iconURL: getPictureUrl(profile),
-      url: getProfileUrl(profile.handle.localName),
+      url: getProfileUrl(profile.handle?.fullHandle),
     });
 
   if (metadata.content) {
@@ -53,44 +52,33 @@ export const PublicationEmbed = ({
     });
 
   const embeds = [mainEmbed];
-  const media = metadata.media;
-  if (media && media.length > 0) {
-    try {
-      mainEmbed.setImage(getMediaUrl(media[0]));
-    } catch (err) {
-      captureException(`Error parsing media: ${err}`);
-    }
-    // @ts-ignore
-    media.slice(1).forEach((item) => {
+
+  if ("attachments" in metadata) {
+    const media = metadata.attachments;
+    if (media && media.length > 0) {
       try {
-        embeds.push(
-          new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(item))
-        );
+        mainEmbed.setImage(getMediaUrl(media[0]));
       } catch (err) {
         captureException(`Error parsing media: ${err}`);
       }
-    });
+      // @ts-ignore
+      media.slice(1).forEach((item) => {
+        try {
+          embeds.push(
+            new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(item))
+          );
+        } catch (err) {
+          captureException(`Error parsing media: ${err}`);
+        }
+      });
+    }
   }
   return embeds;
 };
 
-export const MessageContent = (
-  action: string,
-  publicationUrl: string,
-  targetHandle?: string | null
-) => {
-  if (!targetHandle) {
-    // Posted | Mirrored | Collected
-    return `[${action}](${publicationUrl})`;
-  } else if (action == "Commented") {
-    return `[${action}](${publicationUrl}) on post by [@${targetHandle}](${getProfileUrl(
-      targetHandle
-    )})`;
-  }
-  // Quoted
-  return `[${action}](${publicationUrl}) [@${targetHandle}](${getProfileUrl(
-    targetHandle
-  )})`;
+export const MessageContent = (action: string, publicationUrl: string) => {
+  const content = action == "Quote" ? "Quoted" : action + "ed";
+  return `[${content}](${publicationUrl})`;
 };
 
 export const getPublicationUrl = (publicationId: string) =>
