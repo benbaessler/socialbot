@@ -1,6 +1,5 @@
-import { execute } from "apollo-link";
-import { WebSocketLink } from "apollo-link-ws";
 import { WebSocket } from "ws";
+import { createClient } from "graphql-ws";
 import {
   getMonitoredHandles,
   MessageContent,
@@ -12,7 +11,7 @@ import {
 } from "../utils";
 import { graphEndpoint, userAgent } from "../constants";
 import { newTransactionQuery } from "../graphql/NewTransactionSubscription";
-import { DataAvailabilityTransactionUnion } from "../generated";
+import { MomokaTransaction } from "../generated";
 import { captureException } from "@sentry/node";
 import { sendToDiscord } from ".";
 import {
@@ -22,41 +21,30 @@ import {
   QuoteFragment,
 } from "@lens-protocol/client";
 
-class CustomWebSocket extends WebSocket {
-  constructor(address: string, protocols: string[]) {
-    super(address, protocols, {
-      headers: {
-        "User-Agent": userAgent,
-      },
-    });
-  }
-}
-
 export const startListener = () => {
-  console.log(graphEndpoint);
-  const link = new WebSocketLink({
-    uri: graphEndpoint,
-    options: {
-      reconnect: true,
-      connectionParams: {
-        protocol: "graphql-ws",
-      },
-      connectionCallback: (error: Error[]) => {
-        if (error) console.error(error);
-      },
-    },
-    webSocketImpl: CustomWebSocket,
+  const client = createClient({
+    url: graphEndpoint,
+    webSocketImpl: WebSocket,
   });
 
-  const subClient = execute(link, { query: newTransactionQuery });
-
-  subClient.subscribe((eventData) =>
-    handleDAPublication(eventData.data?.newDataAvailabilityTransaction)
-  );
+  client.subscribe({
+    query: newTransactionQuery,
+  }, {
+    next: (data) => {
+      handleMomokaTransaction(data as MomokaTransaction);
+    },
+    // TODO: handle error + complete
+    error: (error) => {
+      console.error(error);
+    },
+    complete: () => {
+      console.log("completed");
+    },
+  });
 };
 
-export const handleDAPublication = async (
-  data: DataAvailabilityTransactionUnion
+export const handleMomokaTransaction = async (
+  data: MomokaTransaction
 ) => {
   console.log("New pub:", data);
 
