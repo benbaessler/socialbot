@@ -1,5 +1,8 @@
 import { EmbedBuilder } from "discord.js";
-import { ProfileFragment } from "@lens-protocol/client";
+import {
+  ProfileFragment,
+  PublicationMetadataFragment,
+} from "@lens-protocol/client";
 import {
   getPictureUrl,
   getDisplayName,
@@ -8,13 +11,12 @@ import {
   capitalize,
 } from ".";
 import { appIcons } from "../constants";
-import type { Profile, PublicationMetadata } from "../generated";
 import { captureException } from "@sentry/node";
 
 interface PublicationEmbedOptions {
   id: string;
-  metadata: PublicationMetadata;
-  profile: ProfileFragment | Profile;
+  metadata: PublicationMetadataFragment;
+  profile: ProfileFragment;
   appId?: string;
 }
 
@@ -33,10 +35,13 @@ export const PublicationEmbed = ({
     .setAuthor({
       name: getDisplayName(profile),
       iconURL: getPictureUrl(profile),
-      url: getProfileUrl(profile.handle?.fullHandle),
+      url: profile.handle
+        ? getProfileUrl(profile.handle.fullHandle)
+        : // TODO: link to profile without handle
+          "",
     });
 
-  if (metadata.content) {
+  if (metadata.__typename != "EventMetadataV3" && metadata.content) {
     let { content } = metadata;
     // Handle content length limit
     if (content.length > 4096) {
