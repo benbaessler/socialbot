@@ -1,3 +1,4 @@
+import { defaultProfilePicture } from "../constants";
 import {
   LensClient,
   ProfileFragment,
@@ -7,7 +8,6 @@ import {
   development,
   production,
 } from "@lens-protocol/client";
-import { Profile } from "../generated";
 
 export interface IInstance {
   guildId: string;
@@ -54,8 +54,9 @@ export const getPublicationById = async (
 ): Promise<AnyPublicationFragment | null> =>
   await lensClient.publication.fetch({ forId });
 
-export const getPictureUrl = (profile: ProfileFragment | any): string => {
-  const picture = profile.metadata?.picture;
+export const getPictureUrl = (profile: ProfileFragment): string => {
+  if (!profile.metadata) return defaultProfilePicture;
+  const picture = profile.metadata.picture;
   try {
     return (picture as ProfilePictureSetFragment).raw.uri;
   } catch {
@@ -63,10 +64,10 @@ export const getPictureUrl = (profile: ProfileFragment | any): string => {
   }
 };
 
-export const getDisplayName = (profile: ProfileFragment | Profile): string =>
-  profile.metadata.displayName
+export const getDisplayName = (profile: ProfileFragment): string =>
+  profile.metadata?.displayName
     ? `${profile.metadata.displayName} (${
-        profile.handle ? `@${profile.handle.localName}` : profile.id
+        profile.handle ? `@${profile.handle.fullHandle}` : profile.id
       })`
     : profile.handle
     ? `@${profile.handle.localName}`
