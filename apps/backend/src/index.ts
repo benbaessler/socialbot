@@ -4,22 +4,27 @@ import { Log } from "ethers";
 import express, { Request, Response } from "express";
 import crypto from "crypto";
 import mongoose from "mongoose";
-import { 
+import { WebSocket } from "ws";
+import { createClient } from "graphql-ws";
+import { newTransactionQuery } from "./graphql/NewTransactionSubscription";
+import {
   POST_SIGNING_KEY,
   COMMENT_SIGNING_KEY,
   MIRROR_SIGNING_KEY,
   COLLECT_SIGNING_KEY,
   SENTRY_DSN,
-  topics, 
-  dbConnectionString 
+  topics,
+  dbConnectionString,
+  graphEndpoint,
 } from "./constants";
 import {
   handlePublication,
   handleMirror,
   handleCollect,
-  startListener,
+  handleMomokaTransaction,
 } from "./handlers";
-import { init } from "@sentry/node";
+import { captureException, init } from "@sentry/node";
+import { IMomokaTransaction } from "./types";
 require("dotenv").config();
 
 const app = express();
@@ -52,11 +57,7 @@ app.post(
   "/new-post",
   express.raw({ type: "application/json" }),
   async (request: Request, response: Response) => {
-    const body = authenticateRequest(
-      request,
-      response,
-      POST_SIGNING_KEY
-    );
+    const body = authenticateRequest(request, response, POST_SIGNING_KEY);
 
     await handlePublication(
       "Post",
@@ -76,11 +77,7 @@ app.post(
   "/new-comment",
   express.raw({ type: "application/json" }),
   async (request: Request, response: Response) => {
-    const body = authenticateRequest(
-      request,
-      response,
-      COMMENT_SIGNING_KEY
-    );
+    const body = authenticateRequest(request, response, COMMENT_SIGNING_KEY);
 
     await handlePublication(
       "Comment",
@@ -100,11 +97,7 @@ app.post(
   "/new-mirror",
   express.raw({ type: "application/json" }),
   async (request: Request, response: Response) => {
-    const body = authenticateRequest(
-      request,
-      response,
-      MIRROR_SIGNING_KEY
-    );
+    const body = authenticateRequest(request, response, MIRROR_SIGNING_KEY);
 
     await handleMirror(
       body.transaction.logs.find((log: Log) => log.topics[0] == topics.mirror),
@@ -123,11 +116,7 @@ app.post(
   "/new-collect",
   express.raw({ type: "application/json" }),
   async (request: Request, response: Response) => {
-    const body = authenticateRequest(
-      request,
-      response,
-      COLLECT_SIGNING_KEY
-    );
+    const body = authenticateRequest(request, response, COLLECT_SIGNING_KEY);
 
     await handleCollect(
       body.transaction.logs.find((log: Log) => log.topics[0] == topics.act),
@@ -147,12 +136,32 @@ app.get("/new-collect", (request: Request, response: Response) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, async () => {
+  console.log("Running on port", port);
   init({ dsn: SENTRY_DSN });
 
   await mongoose.connect(dbConnectionString!);
   console.log("Connected to Database");
-  console.log("Running on port", port);
-  startListener();
+
+  const client = createClient({
+    url: graphEndpoint,
+    webSocketImpl: WebSocket,
+  });
+
+  client.subscribe(
+    {
+      query: newTransactionQuery,
+    },
+    {
+      next: (data) => {
+        handleMomokaTransaction(data as IMomokaTransaction);
+      },
+      error: (error) => captureException(error),
+      // TODO: restart listener
+      complete: () => {
+        console.log("Momoka listener completed");
+      },
+    }
+  );
 });
 
 function isValidSignature(
