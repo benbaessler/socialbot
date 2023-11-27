@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.14",
-    "@lens-protocol/client": "^2.0.0-alpha.19",
+    "@lens-protocol/client": "^2.0.0-alpha.22",
     "@sentry/node": "^7.51.2",
     "@types/axios": "^0.14.0",
     "@types/express": "^4.17.17",
