@@ -21,7 +21,7 @@ export const handleMomokaTransaction = async (
     return captureException(`Publication not found: ${data.publication.id}`);
 
   const monitoredProfileIds = await getMonitoredProfileIds();
-  if (!publication || !monitoredProfileIds.includes(publication.by.id)) return;
+  if (!publication || !monitoredProfileIds.includes(hexToNumber(publication.by.id))) return;
 
   const profile = publication.by;
   const publicationUrl = getPublicationUrl(publication.id);
