@@ -1,4 +1,4 @@
-import { getProfileUrl, parseHandle, IInstance } from ".";
+import { getProfileUrl, IInstance } from ".";
 
 export const helpEmbedContent = `Social Bot allows you to receive real-time updates from any Lens profile in your Discord server. **Here is a summary of available commands**:
 
@@ -23,12 +23,18 @@ export const listEmbedContent = (monitors: IInstance[]) => {
 
   return Object.values(groupedMonitors)
     .map((group: any) => {
-      const { handle, mention, includeComments, includeMirrors, includeInteractions } = group[0];
+      const {
+        handle,
+        mention,
+        includeComments,
+        includeMirrors,
+        includeInteractions,
+      } = group[0];
       const channels = group
         .map((monitor: IInstance) => `<#${monitor.channelId}>`)
         .join(" ");
 
-      return `**[@${parseHandle(handle)}](${getProfileUrl(handle)})**
+      return `**@[${handle}](${getProfileUrl(handle)})**
 Mentions: **${mention ? "Everyone" : "Off"}**
 Comments: **${includeComments ? "Included" : "No"}**
 Mirrors: **${includeMirrors ? "Included" : "No"}**
