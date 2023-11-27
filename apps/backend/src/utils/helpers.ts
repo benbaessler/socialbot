@@ -55,7 +55,7 @@ export const getPublicationById = async (
   await lensClient.publication.fetch({ forId });
 
 export const getPictureUrl = (profile: ProfileFragment): string => {
-  if (!profile.metadata) return defaultProfilePicture;
+  if (!profile.metadata?.picture) return defaultProfilePicture;
   const picture = profile.metadata.picture;
   try {
     return (picture as ProfilePictureSetFragment).raw.uri;
