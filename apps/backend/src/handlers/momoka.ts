@@ -1,5 +1,3 @@
-import { WebSocket } from "ws";
-import { createClient } from "graphql-ws";
 import {
   getMonitoredProfileIds,
   MessageContent,
@@ -10,35 +8,8 @@ import {
   hexToNumber,
 } from "../utils";
 import { captureException } from "@sentry/node";
-import { graphEndpoint } from "../constants";
 import { IMomokaTransaction } from "../types";
-import { newTransactionQuery } from "../graphql/NewTransactionSubscription";
 import { sendToDiscord } from ".";
-
-export const startListener = () => {
-  const client = createClient({
-    url: graphEndpoint,
-    webSocketImpl: WebSocket,
-  });
-
-  client.subscribe(
-    {
-      query: newTransactionQuery,
-    },
-    {
-      next: (data) => {
-        handleMomokaTransaction(data as IMomokaTransaction);
-      },
-      // TODO: handle error + complete
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        console.log("completed");
-      },
-    }
-  );
-};
 
 export const handleMomokaTransaction = async (
   transaction: IMomokaTransaction
