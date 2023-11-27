@@ -28,7 +28,7 @@ export const topics = {
 
 export const graphEndpoint = useMainnet
   ? "wss://api.lens.dev"
-  : "wss://api-v2-mumbai.lens.dev";
+  : "wss://api-v2-mumbai-live.lens.dev";
 
 export const appIcons: { [key: string]: string } = {
   hey: "https://hey.xyz/logo.png",
