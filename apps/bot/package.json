@@ -10,13 +10,13 @@
     "test": "ts-node src/tests/index.ts"
   },
   "dependencies": {
-    "@lens-protocol/client": "^1.0.1",
+    "@lens-protocol/client": "^2.0.0-alpha.22",
     "@sentry/node": "^7.51.2",
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
     "ethers": "^6.3.0",
     "mongoose": "^7.0.3",
-    "typescript": "^5.0.4",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   }
 }
