@@ -57,11 +57,13 @@ export const getPublicationById = async (
 export const getPictureUrl = (profile: ProfileFragment): string => {
   if (!profile.metadata?.picture) return defaultProfilePicture;
   const picture = profile.metadata.picture;
+  let result: string;
   try {
-    return (picture as ProfilePictureSetFragment).raw.uri;
+    result = (picture as ProfilePictureSetFragment).raw.uri;
   } catch {
-    return (picture as NftImageFragment).image.raw.uri;
+    result = (picture as NftImageFragment).image.raw.uri;
   }
+  return parseUri(result);
 };
 
 export const getDisplayName = (profile: ProfileFragment): string =>

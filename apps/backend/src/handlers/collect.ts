@@ -56,11 +56,7 @@ export const handleCollect = async (
       profile.metadata?.displayName ?? profile.handle?.localName ?? profile.id,
     avatar_url: getPictureUrl(profile),
     content: MessageContent("Collected", pubUrl),
-    embeds: PublicationEmbed({
-      id: publication.id,
-      metadata: publication.metadata,
-      profile: publication.by,
-    }),
+    embeds: PublicationEmbed(publication),
   };
 
   await sendToDiscord({

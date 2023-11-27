@@ -37,11 +37,7 @@ export const handleMirror = async (log: Log, txHash: string) => {
         publication.by.id,
       avatar_url: getPictureUrl(publication.by),
       content: MessageContent("Mirrored", getPublicationUrl(publication.id)),
-      embeds: PublicationEmbed({
-        id: publication.id,
-        metadata: publication.mirrorOn.metadata,
-        profile: publication.mirrorOn.by,
-      }),
+      embeds: PublicationEmbed(publication.mirrorOn),
     };
 
     await sendToDiscord({
