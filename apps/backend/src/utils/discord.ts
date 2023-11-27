@@ -1,7 +1,8 @@
 import { EmbedBuilder } from "discord.js";
 import {
-  ProfileFragment,
-  PublicationMetadataFragment,
+  PrimaryPublicationFragment,
+  CommentBaseFragment,
+  QuoteBaseFragment,
 } from "@lens-protocol/client";
 import {
   getPictureUrl,
@@ -13,42 +14,34 @@ import {
 import { appIcons } from "../constants";
 import { captureException } from "@sentry/node";
 
-interface PublicationEmbedOptions {
-  id: string;
-  metadata: PublicationMetadataFragment;
-  profile: ProfileFragment;
-  appId?: string;
-}
-
-export const PublicationEmbed = ({
-  id,
-  metadata,
-  profile,
-  appId,
-}: PublicationEmbedOptions) => {
-  const embedUrl = getPublicationUrl(id);
+export const PublicationEmbed = (
+  post: PrimaryPublicationFragment | CommentBaseFragment | QuoteBaseFragment
+) => {
+  const embedUrl = getPublicationUrl(post.id);
 
   const mainEmbed = new EmbedBuilder()
     .setTimestamp()
     .setColor(0x00501e)
     .setURL(embedUrl)
     .setAuthor({
-      name: getDisplayName(profile),
-      iconURL: getPictureUrl(profile),
-      url: profile.handle
-        ? getProfileUrl(profile.handle.fullHandle)
+      name: getDisplayName(post.by),
+      iconURL: getPictureUrl(post.by),
+      url: post.by.handle
+        ? getProfileUrl(post.by.handle.fullHandle)
         : // TODO: link to profile without handle
-          "",
+          "https://google.com",
     });
 
-  if (metadata.__typename != "EventMetadataV3" && metadata.content) {
-    let { content } = metadata;
+  if (post.metadata.__typename != "EventMetadataV3" && post.metadata.content) {
+    let { content } = post.metadata;
     // Handle content length limit
     if (content.length > 4096) {
       content = content.substring(0, 4093) + "...";
     }
     mainEmbed.setDescription(content);
   }
+
+  const appId = post.publishedOn?.id;
 
   if (appId)
     mainEmbed.setFooter({
@@ -58,8 +51,8 @@ export const PublicationEmbed = ({
 
   const embeds = [mainEmbed];
 
-  if ("attachments" in metadata) {
-    const media = metadata.attachments;
+  if ("attachments" in post.metadata) {
+    const media = post.metadata.attachments;
     if (media && media.length > 0) {
       try {
         mainEmbed.setImage(getMediaUrl(media[0]));
