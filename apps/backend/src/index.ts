@@ -1,6 +1,5 @@
 /// <reference path="./index.d.ts" />
 
-import { Log } from "ethers";
 import express, { Request, Response } from "express";
 import crypto from "crypto";
 import mongoose from "mongoose";
@@ -8,23 +7,19 @@ import { WebSocket } from "ws";
 import { createClient } from "graphql-ws";
 import { newTransactionQuery } from "./graphql/NewTransactionSubscription";
 import {
-  POST_SIGNING_KEY,
-  COMMENT_SIGNING_KEY,
-  MIRROR_SIGNING_KEY,
-  COLLECT_SIGNING_KEY,
   SENTRY_DSN,
-  topics,
   dbConnectionString,
   graphEndpoint,
+  SIGNING_KEY,
 } from "./constants";
-import {
-  handlePublication,
-  handleMirror,
-  handleCollect,
-  handleMomokaTransaction,
-} from "./handlers";
+import { handlePublication, handleMomokaTransaction } from "./handlers";
 import { captureException, init } from "@sentry/node";
 import { IMomokaTransaction } from "./types";
+import {
+  getMonitoredProfileIds,
+  getPublicationbyTxHash,
+  hexToNumber,
+} from "./utils";
 require("dotenv").config();
 
 const app = express();
@@ -54,83 +49,34 @@ const authenticateRequest = (
 };
 
 app.post(
-  "/new-post",
+  "/new-publication",
   express.raw({ type: "application/json" }),
   async (request: Request, response: Response) => {
-    const body = authenticateRequest(request, response, POST_SIGNING_KEY);
-
-    await handlePublication(
-      "Post",
-      body.transaction.logs.find((log: Log) => log.topics[0] == topics.post),
-      body.transaction.hash
+    const body = authenticateRequest(
+      request,
+      response,
+      process.env.SIGNING_KEY!
     );
+
+    console.log("New publication;", body.transaction.hash);
+
+    const publication = await getPublicationbyTxHash(body.transaction.hash);
+
+    if (!publication)
+      return captureException(
+        `Publication not found: ${body.transaction.hash}`
+      );
+
+    const monitoredProfileIds = await getMonitoredProfileIds();
+
+    if (monitoredProfileIds.includes(hexToNumber(publication.by.id)))
+      await handlePublication(publication);
 
     response.send();
   }
 );
 
-app.get("/new-post", (request: Request, response: Response) => {
-  response.send("Health check OK");
-});
-
-app.post(
-  "/new-comment",
-  express.raw({ type: "application/json" }),
-  async (request: Request, response: Response) => {
-    const body = authenticateRequest(request, response, COMMENT_SIGNING_KEY);
-
-    await handlePublication(
-      "Comment",
-      body.transaction.logs.find((log: Log) => log.topics[0] == topics.comment),
-      body.transaction.hash
-    );
-
-    response.send();
-  }
-);
-
-app.get("/new-comment", (request: Request, response: Response) => {
-  response.send("Health check OK");
-});
-
-app.post(
-  "/new-mirror",
-  express.raw({ type: "application/json" }),
-  async (request: Request, response: Response) => {
-    const body = authenticateRequest(request, response, MIRROR_SIGNING_KEY);
-
-    await handleMirror(
-      body.transaction.logs.find((log: Log) => log.topics[0] == topics.mirror),
-      body.transaction.hash
-    );
-
-    response.send();
-  }
-);
-
-app.get("/new-mirror", (request: Request, response: Response) => {
-  response.send("Health check OK");
-});
-
-app.post(
-  "/new-collect",
-  express.raw({ type: "application/json" }),
-  async (request: Request, response: Response) => {
-    const body = authenticateRequest(request, response, COLLECT_SIGNING_KEY);
-
-    await handleCollect(
-      body.transaction.logs.find((log: Log) => log.topics[0] == topics.act),
-      body.transaction.logs.filter(
-        (log: any) => log.topics[0] == topics.transfer
-      ),
-      body.transaction.hash
-    );
-
-    response.send();
-  }
-);
-
-app.get("/new-collect", (request: Request, response: Response) => {
+app.get("/new-publication", (request: Request, response: Response) => {
   response.send("Health check OK");
 });
 
