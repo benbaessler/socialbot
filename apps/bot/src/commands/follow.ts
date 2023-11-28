@@ -6,10 +6,10 @@ import {
 import {
   FollowEmbed,
   ErrorFollowEmbed,
-  parseHandle,
   getProfileByHandle,
   hexToNumber,
 } from "../utils";
+import { icons } from "../constants";
 import Instance from "../models/Instance";
 import { captureException } from "@sentry/node";
 import Stats from "../models/Stats";
@@ -55,7 +55,7 @@ const data = new SlashCommandBuilder()
   );
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
-  const handle = parseHandle(interaction.options.getString("handle")!);
+  const handle = interaction.options.getString("handle")!;
   const channel = interaction.options.getChannel("channel")! as TextChannel;
   const includeComments = interaction.options.getBoolean("comments")!;
   const includeMirrors = interaction.options.getBoolean("mirrors")!;
@@ -74,7 +74,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   const query = {
     channelId: channel.id,
     profileId: hexToNumber(profile.id),
-    ownedBy: profile.ownedBy.toLowerCase(),
+    ownedBy: profile.ownedBy.address.toLowerCase(),
     guildId,
     handle,
   };
@@ -94,8 +94,8 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   if (!channelInstance) {
     try {
       const webhook = await channel.createWebhook({
-        name: "Lens Echo",
-        avatar: "https://i.imgur.com/u03AmLH.png",
+        name: "Social Bot",
+        avatar: icons.logo,
       });
       webhookUrl = webhook.url;
     } catch (error) {

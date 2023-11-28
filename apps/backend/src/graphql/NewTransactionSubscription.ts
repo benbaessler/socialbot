@@ -1,101 +1,192 @@
-import { gql } from "graphql-tag";
-
-export const newTransactionQuery = gql`
+export const newTransactionQuery = `
   subscription NewTransaction {
-    newDataAvailabilityTransaction {
-      ... on DataAvailabilityPost {
-        ...DAPostFields
+    newMomokaTransaction {
+      ... on MomokaPostTransaction {
+        ...MomokaPostFields
         __typename
       }
-      ... on DataAvailabilityComment {
-        ...DACommentFields
+      ... on MomokaCommentTransaction {
+        ...MomokaCommentFields
         __typename
       }
-      ... on DataAvailabilityMirror {
-        ...DAMirrorFields
+      ... on MomokaMirrorTransaction {
+        ...MomokaMirrorFields
+        __typename
+      }
+      ... on MomokaQuoteTransaction {
+        ...MomokaQuoteFields
         __typename
       }
       __typename
     }
   }
 
-  fragment DAPostFields on DataAvailabilityPost {
+  fragment MomokaPostFields on MomokaPostTransaction {
     transactionId
     submitter
     createdAt
-    appId
-    profile {
-      ...ProfileFields
-      __typename
+    app {
+      id
     }
-    publicationId
-    __typename
+    publication {
+      id
+      by {
+        ...ProfileFields
+      }
+    }
+    verificationStatus {
+      ... on MomokaVerificationStatusSuccess {
+        verified
+      }
+      ... on MomokaVerificationStatusFailure {
+        status
+      }
+    }
   }
 
-  fragment DACommentFields on DataAvailabilityComment {
+  fragment MomokaCommentFields on MomokaCommentTransaction {
     transactionId
     submitter
     createdAt
-    appId
-    profile {
-      ...ProfileFields
-      __typename
+    app {
+      id
     }
-    publicationId
-    commentedOnProfile {
-      ...ProfileFields
-      __typename
+    publication {
+      id
+      by {
+        ...ProfileFields
+      }
     }
-    commentedOnPublicationId
-    __typename
+    verificationStatus {
+      ... on MomokaVerificationStatusSuccess {
+        verified
+      }
+      ... on MomokaVerificationStatusFailure {
+        status
+      }
+    }
   }
 
-  fragment DAMirrorFields on DataAvailabilityMirror {
+  fragment MomokaMirrorFields on MomokaMirrorTransaction {
     transactionId
     submitter
     createdAt
-    appId
-    profile {
-      ...ProfileFields
-      __typename
+    app {
+      id
     }
-    publicationId
-    mirrorOfProfile {
-      ...ProfileFields
-      __typename
+    publication {
+      id
+      by {
+        ...ProfileFields
+      }
     }
-    mirrorOfPublicationId
-    __typename
+    verificationStatus {
+      ... on MomokaVerificationStatusSuccess {
+        verified
+      }
+      ... on MomokaVerificationStatusFailure {
+        status
+      }
+    }
+  }
+
+  fragment MomokaQuoteFields on MomokaQuoteTransaction {
+    transactionId
+    submitter
+    createdAt
+    app {
+      id
+    }
+    publication {
+      id
+      by {
+        ...ProfileFields
+      }
+    }
+    verificationStatus {
+      ... on MomokaVerificationStatusSuccess {
+        verified
+      }
+      ... on MomokaVerificationStatusFailure {
+        status
+      }
+    }
   }
 
   fragment ProfileFields on Profile {
     id
-    name
-    handle
-    bio
-    ownedBy
-    stats {
-      totalFollowers
-      totalFollowing
-      totalPosts
-      totalComments
-      totalMirrors
-      __typename
-    }
-    picture {
-      ... on MediaSet {
-        original {
-          url
-          __typename
+    handle {
+      id
+      fullHandle
+      namespace
+      localName
+      suggestedFormatted {
+        full
+        localName
+      }
+      linkedTo {
+        contract {
+          address
+          chainId
         }
-        __typename
+        nftTokenId
       }
-      ... on NftImage {
-        uri
-        __typename
-      }
-      __typename
+      ownedBy
     }
-    __typename
+    ownedBy {
+      address
+    }
+    operations {
+      id
+      isBlockedByMe {
+        value
+      }
+      isFollowedByMe {
+        value
+      }
+      isFollowingMe {
+        value
+      }
+      canBlock
+      canUnblock
+      canFollow
+      canUnfollow
+    }
+    stats {
+      id
+      followers
+      following
+      comments
+      posts
+      mirrors
+      quotes
+      publications
+      reactions
+      reacted
+      countOpenActions
+    }
+    metadata {
+      displayName
+      bio
+      rawURI
+      appId
+      picture {
+        ... on ImageSet {
+          raw {
+            uri
+          }
+          optimized {
+            uri
+          }
+        }
+        ... on NftImage {
+          image {
+            raw {
+              uri
+            }
+          }
+        }
+      }
+    }
   }
 `;

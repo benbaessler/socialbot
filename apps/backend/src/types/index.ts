@@ -1,4 +1,5 @@
 import { EmbedBuilder } from "discord.js";
+import { MomokaTransaction } from "../generated";
 
 export interface ILog {
   topics: string[];
@@ -10,4 +11,10 @@ export interface IPayload {
   avatar_url: string;
   content: string;
   embeds: EmbedBuilder[];
+}
+
+export interface IMomokaTransaction {
+  data: {
+    newMomokaTransaction: MomokaTransaction;
+  };
 }

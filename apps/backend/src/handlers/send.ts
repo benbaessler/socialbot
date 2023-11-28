@@ -6,22 +6,18 @@ import {
   getInstancesWithInteractions,
   increasePostedCount,
   IInstance,
-  getInstancesWithComments,
 } from "../utils";
 import { IPayload } from "../types";
 import { captureException } from "@sentry/node";
 interface Props {
   profileId: string;
   payload: IPayload;
-  type: "Post" | "Comment" | "Collect" | "Mirror";
+  type: "Post" | "Comment" | "Collect" | "Mirror" | "Quote";
 }
 
 export const sendToDiscord = async ({ profileId, payload, type }: Props) => {
   let instances: IInstance[];
   switch (type) {
-    case "Comment":
-      instances = await getInstancesWithComments(profileId);
-      break;
     case "Collect":
       instances = await getInstancesWithInteractions(profileId);
       break;

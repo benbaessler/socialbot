@@ -1,11 +1,17 @@
 import {
+  arweaveGateway,
+  defaultProfilePicture,
+  ipfsGateway,
+} from "../constants";
+import {
   LensClient,
   ProfileFragment,
-  PublicationFragment,
+  AnyPublicationFragment,
+  ProfilePictureSetFragment,
+  NftImageFragment,
   development,
   production,
 } from "@lens-protocol/client";
-import { Profile } from "../generated";
 
 export interface IInstance {
   guildId: string;
@@ -38,52 +44,58 @@ export const lensClient = new LensClient({
 });
 
 export const getProfile = async (
-  profileId: string
+  forProfileId: string
 ): Promise<ProfileFragment | null> =>
-  await lensClient.profile.fetch({ profileId });
+  await lensClient.profile.fetch({ forProfileId });
 
 export const getPublicationbyTxHash = async (
-  txHash: string
-): Promise<PublicationFragment | null> =>
-  await lensClient.publication.fetch({ txHash });
+  forTxHash: string
+): Promise<AnyPublicationFragment | null> =>
+  await lensClient.publication.fetch({ forTxHash });
 
 export const getPublicationById = async (
-  publicationId: string
-): Promise<PublicationFragment | null> =>
-  await lensClient.publication.fetch({ publicationId });
+  forId: string
+): Promise<AnyPublicationFragment | null> =>
+  await lensClient.publication.fetch({ forId });
 
-export const getPictureUrl = (profile: ProfileFragment | Profile): string => {
-  const picture = profile.picture;
-  return picture
-    ? picture.__typename == "MediaSet"
-      ? parseUri(picture.original.url)
-      : // @ts-ignore
-        parseUri(picture.uri)
-    : "";
+export const getPictureUrl = (profile: ProfileFragment): string => {
+  if (!profile.metadata?.picture) return defaultProfilePicture;
+  const picture = profile.metadata.picture;
+  let result: string;
+  try {
+    result = (picture as ProfilePictureSetFragment).raw.uri;
+  } catch {
+    result = (picture as NftImageFragment).image.raw.uri;
+  }
+  return parseUri(result);
 };
 
-export const getDisplayName = (profile: ProfileFragment | Profile): string =>
-  profile.name ? `${profile.name} (@${profile.handle})` : `@${profile.handle}`;
+export const getDisplayName = (profile: ProfileFragment): string =>
+  profile.metadata?.displayName
+    ? `${profile.metadata.displayName} (${
+        profile.handle ? `@${profile.handle.fullHandle}` : profile.id
+      })`
+    : profile.handle
+    ? `@${profile.handle.localName}`
+    : profile.id;
 
 export const getProfileUrl = (handle: string): string =>
   `https://share.lens.xyz/u/${handle}`;
 
 export const getDefaultProfile = async (
   address: string
-): Promise<ProfileFragment> =>
-  await lensClient.profile
-    .fetchAll({ ownedBy: [address], limit: 1 })
-    .then((res) => res.items[0]);
+): Promise<ProfileFragment | null> =>
+  await lensClient.profile.fetchDefault({ for: address });
 
 export const parseUri = (uri: string): string => {
   if (uri.startsWith("ipfs")) {
-    return `https://ipfs.io/ipfs/${uri.slice(7)}`;
+    return `${ipfsGateway}${uri.slice(7)}`;
   }
   if (uri.startsWith("https://")) {
     return uri;
   }
   if (uri.startsWith("ar://")) {
-    return `https://arweave.net/${uri.slice(5)}`;
+    return `${arweaveGateway}${uri.slice(5)}`;
   }
   console.log(`Invalid URI ${uri}`);
   return "";
@@ -107,9 +119,8 @@ export const capitalize = (str: string): string =>
   str.replace(/\b\w/g, (char) => char.toUpperCase());
 
 export const getMediaUrl = (media: any): string => {
-  const item = media as any;
   try {
-    return parseUri(item.item);
+    return parseUri(media.item);
   } catch {
     return parseUri(media.original.url);
   }

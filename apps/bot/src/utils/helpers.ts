@@ -14,7 +14,7 @@ export const lensClient = new LensClient({
 export const getProfileByHandle = async (
   handle: string
 ): Promise<ProfileFragment | null> =>
-  await lensClient.profile.fetch({ handle });
+  await lensClient.profile.fetch({ forHandle: handle });
 
 export const getProfileUrl = (handle: string): string =>
   `https://share.lens.xyz/u/${handle}`;
@@ -37,13 +37,6 @@ export const parseUri = (uri: string): string => {
 
 export const hexToNumber = (hex: string): string =>
   parseInt(hex, 16).toString();
-
-export const parseHandle = (input: string): string => {
-  if (!input.endsWith(handleDomain) && input != "lensprotocol") {
-    return input + handleDomain;
-  }
-  return input;
-};
 
 export interface IInstance {
   guildId: string;
