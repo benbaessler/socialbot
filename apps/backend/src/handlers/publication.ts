@@ -7,6 +7,7 @@ import {
   hexToNumber,
 } from "../utils";
 import { sendToDiscord } from ".";
+import { EmbedBuilder } from "discord.js";
 
 export const handlePublication = async (
   publication: AnyPublicationFragment
@@ -16,20 +17,24 @@ export const handlePublication = async (
 
   const type = publication.__typename!;
 
-  let posts;
+  let embeds: EmbedBuilder[];
   if (publication.__typename == "Mirror") {
-    posts = [publication.mirrorOn];
+    embeds = PublicationEmbed(publication.mirrorOn);
   } else if (publication.__typename == "Comment") {
-    posts = [publication.commentOn, publication];
+    embeds = [
+      ...PublicationEmbed(publication.commentOn, false),
+      ...PublicationEmbed(publication),
+    ];
   } else if (publication.__typename == "Quote") {
-    posts = [publication, publication.quoteOn];
+    embeds = [
+      ...PublicationEmbed(publication),
+      ...PublicationEmbed(publication.quoteOn, false),
+    ];
   } else {
-    posts = [publication];
+    embeds = PublicationEmbed(publication);
   }
 
   let content = MessageContent(type, publicationUrl);
-
-  const embeds = posts.map((post) => PublicationEmbed(post)).flat();
 
   const payload = {
     username:
@@ -38,7 +43,6 @@ export const handlePublication = async (
     content,
     embeds,
   };
-
 
   await sendToDiscord({
     profileId: hexToNumber(profile.id),

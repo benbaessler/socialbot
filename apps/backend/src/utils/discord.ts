@@ -15,12 +15,12 @@ import { appIcons } from "../constants";
 import { captureException } from "@sentry/node";
 
 export const PublicationEmbed = (
-  post: PrimaryPublicationFragment | CommentBaseFragment | QuoteBaseFragment
+  post: PrimaryPublicationFragment | CommentBaseFragment | QuoteBaseFragment,
+  includeFooter: boolean = true
 ) => {
   const embedUrl = getPublicationUrl(post.id);
 
   const mainEmbed = new EmbedBuilder()
-    .setTimestamp()
     .setColor(0x00501e)
     .setURL(embedUrl)
     .setAuthor({
@@ -43,11 +43,14 @@ export const PublicationEmbed = (
 
   const appId = post.publishedOn?.id;
 
-  if (appId)
-    mainEmbed.setFooter({
-      text: `From ${capitalize(appId)}`,
-      iconURL: appIcons[appId.toLowerCase()] ?? appIcons.unknown,
-    });
+  if (includeFooter) {
+    mainEmbed.setTimestamp();
+    if (appId)
+      mainEmbed.setFooter({
+        text: `From ${capitalize(appId)}`,
+        iconURL: appIcons[appId.toLowerCase()] ?? appIcons.unknown,
+      });
+  }
 
   const embeds = [mainEmbed];
 
