@@ -24,7 +24,7 @@ export const topics = {
 };
 
 export const graphEndpoint = useMainnet
-  ? "wss://api.lens.dev"
+  ? "wss://api-v2.lens.dev"
   : "wss://api-v2-mumbai-live.lens.dev";
 
 export const appIcons: { [key: string]: string } = {
