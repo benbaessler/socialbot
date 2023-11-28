@@ -46,7 +46,7 @@ export const dbConnectionString = useMainnet
   ? process.env.DB_CONN_STRING!
   : process.env.DB_CONN_STRING_TEST!;
 
-export const ipfsGateway = "https://cf-ipfs.com/ipfs";
+export const ipfsGateway = "https://cf-ipfs.com/ipfs/";
 export const arweaveGateway = "https://arweave.net/";
 
 export const userAgent =
