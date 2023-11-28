@@ -21,7 +21,7 @@ export const PublicationEmbed = (
   const embedUrl = getPublicationUrl(post.id);
 
   const mainEmbed = new EmbedBuilder()
-    .setColor(0x00501e)
+    .setColor(0x2b2d31)
     .setURL(embedUrl)
     .setAuthor({
       name: getDisplayName(post.by),

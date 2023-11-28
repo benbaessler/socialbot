@@ -1,4 +1,8 @@
-import { defaultProfilePicture } from "../constants";
+import {
+  arweaveGateway,
+  defaultProfilePicture,
+  ipfsGateway,
+} from "../constants";
 import {
   LensClient,
   ProfileFragment,
@@ -85,13 +89,13 @@ export const getDefaultProfile = async (
 
 export const parseUri = (uri: string): string => {
   if (uri.startsWith("ipfs")) {
-    return `https://ipfs.io/ipfs/${uri.slice(7)}`;
+    return `${ipfsGateway}${uri.slice(7)}`;
   }
   if (uri.startsWith("https://")) {
     return uri;
   }
   if (uri.startsWith("ar://")) {
-    return `https://arweave.net/${uri.slice(5)}`;
+    return `${arweaveGateway}${uri.slice(5)}`;
   }
   console.log(`Invalid URI ${uri}`);
   return "";
