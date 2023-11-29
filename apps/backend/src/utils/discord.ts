@@ -5,11 +5,12 @@ import {
   QuoteBaseFragment,
 } from "@lens-protocol/client";
 import {
-  getPictureUrl,
   getDisplayName,
+  getAttachmentsData,
   getMediaUrl,
   getProfileUrl,
   capitalize,
+  getAvatar,
 } from ".";
 import { appIcons } from "../constants";
 import { captureException } from "@sentry/node";
@@ -25,7 +26,7 @@ export const PublicationEmbed = (
     .setURL(embedUrl)
     .setAuthor({
       name: getDisplayName(post.by),
-      iconURL: getPictureUrl(post.by),
+      iconURL: getAvatar(post.by),
       url: post.by.handle
         ? getProfileUrl(post.by.handle.fullHandle)
         : // TODO: link to profile without handle
@@ -56,6 +57,7 @@ export const PublicationEmbed = (
 
   if ("attachments" in post.metadata) {
     const media = post.metadata.attachments;
+    
     if (media && media.length > 0) {
       try {
         mainEmbed.setImage(getMediaUrl(media[0]));
