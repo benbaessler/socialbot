@@ -56,26 +56,17 @@ export const PublicationEmbed = (
   const embeds = [mainEmbed];
 
   if ("attachments" in post.metadata) {
-    const media = post.metadata.attachments;
-    
-    if (media && media.length > 0) {
-      try {
-        mainEmbed.setImage(getMediaUrl(media[0]));
-      } catch (err) {
-        captureException(`Error parsing media: ${err}`);
-      }
-      // @ts-ignore
-      media.slice(1).forEach((item) => {
-        try {
-          embeds.push(
-            new EmbedBuilder().setURL(embedUrl).setImage(getMediaUrl(item))
-          );
-        } catch (err) {
-          captureException(`Error parsing media: ${err}`);
+    getAttachmentsData(post.metadata.attachments).forEach(
+      (item: any, index: number) => {
+        if (index == 0) {
+          mainEmbed.setImage(item.uri);
+        } else {
+          embeds.push(new EmbedBuilder().setURL(embedUrl).setImage(item.uri));
         }
-      });
-    }
+      }
+    );
   }
+  
   return embeds;
 };
 
