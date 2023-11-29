@@ -55,7 +55,7 @@ app.post(
     const body = authenticateRequest(
       request,
       response,
-      process.env.SIGNING_KEY!
+      SIGNING_KEY!
     );
 
     console.log("New publication;", body.transaction.hash);
