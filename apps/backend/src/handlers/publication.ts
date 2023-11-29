@@ -3,7 +3,7 @@ import {
   MessageContent,
   PublicationEmbed,
   getPublicationUrl,
-  getPictureUrl,
+  getAvatar,
   hexToNumber,
 } from "../utils";
 import { sendToDiscord } from ".";
@@ -39,7 +39,7 @@ export const handlePublication = async (
   const payload = {
     username:
       profile.metadata?.displayName ?? profile.handle?.fullHandle ?? profile.id,
-    avatar_url: getPictureUrl(profile),
+    avatar_url: getAvatar(profile),
     content,
     embeds,
   };

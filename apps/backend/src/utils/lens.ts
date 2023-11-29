@@ -115,29 +115,6 @@ export const getDefaultProfile = async (
 ): Promise<ProfileFragment | null> =>
   await lensClient.profile.fetchDefault({ for: address });
 
-// TODO: REMOVE
-export const parseUri = (uri: string): string => {
-  if (uri.startsWith("ipfs")) {
-    return `${ipfsGateway}${uri.slice(7)}`;
-  }
-  if (uri.startsWith("https://")) {
-    return uri;
-  }
-  if (uri.startsWith("ar://")) {
-    return `${arweaveGateway}${uri.slice(5)}`;
-  }
-  console.log(`Invalid URI ${uri}`);
-  return "";
-};
-
-export const getMediaUrl = (media: any): string => {
-  try {
-    return parseUri(media.item);
-  } catch {
-    return parseUri(media.original.url);
-  }
-};
-
 export const getAttachmentsData = (
   attachments?: Maybe<PublicationMetadataMedia[]>
 ): any => {

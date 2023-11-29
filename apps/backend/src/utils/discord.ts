@@ -7,13 +7,11 @@ import {
 import {
   getDisplayName,
   getAttachmentsData,
-  getMediaUrl,
   getProfileUrl,
   capitalize,
   getAvatar,
 } from ".";
 import { appIcons } from "../constants";
-import { captureException } from "@sentry/node";
 
 export const PublicationEmbed = (
   post: PrimaryPublicationFragment | CommentBaseFragment | QuoteBaseFragment,
@@ -66,7 +64,7 @@ export const PublicationEmbed = (
       }
     );
   }
-  
+
   return embeds;
 };
 
