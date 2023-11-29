@@ -25,6 +25,7 @@
     "graphql-ws": "^5.14.2",
     "mongoose": "^7.0.4",
     "typescript": "^5.0.4",
+    "urlcat": "^3.1.0",
     "ws": "^8.14.2"
   },
   "devDependencies": {
