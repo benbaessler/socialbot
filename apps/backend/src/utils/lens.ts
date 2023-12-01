@@ -96,8 +96,6 @@ const getStampFyiURL = (address: string): string => {
   });
 };
 
-export default getStampFyiURL;
-
 export const getDisplayName = (profile: ProfileFragment): string =>
   profile.metadata?.displayName
     ? `${profile.metadata.displayName} (${
