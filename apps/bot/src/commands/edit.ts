@@ -6,7 +6,8 @@ import {
 import {
   EditEmbed,
   ProfileErrorEmbed,
-  ErrorEmbed
+  ErrorEmbed,
+  parseHandle
 } from "../utils";
 import Instance from "../models/Instance";
 import Stats from "../models/Stats";
@@ -52,7 +53,7 @@ const data = new SlashCommandBuilder()
   );
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
-  const handle = interaction.options.getString("handle")!;
+  const handle = parseHandle(interaction.options.getString("handle")!);
   const channel = interaction.options.getChannel("channel")! as TextChannel;
   const includeComments = interaction.options.getBoolean("comments")!;
   const includeMirrors = interaction.options.getBoolean("mirrors")!;

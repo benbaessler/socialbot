@@ -38,25 +38,10 @@ export const parseUri = (uri: string): string => {
 export const hexToNumber = (hex: string): string =>
   parseInt(hex, 16).toString();
 
-export interface IInstance {
-  guildId: string;
-  channelId: string;
-  handle: string;
-  profileId: string;
-  ownedBy: string;
-  includeComments: boolean;
-  includeMirrors: boolean;
-  includeInteractions: boolean;
-  mention: boolean;
-  webhookUrl: string;
-}
+export const parseHandle = (input: string): string => {
+  if (!input.includes("/")) {
+    return `lens/${input}`;
+  }
+  return input;
+};
 
-export interface IStats {
-  guildId: string;
-  joinedAt: Date;
-  postsPosted: number;
-  commentsPosted: number;
-  mirrorsPosted: number;
-  collectsPosted: number;
-  commandsUsed: number;
-}

@@ -4,7 +4,7 @@ import {
   TextChannel,
 } from "discord.js";
 import Instance from "../models/Instance";
-import { UnfollowEmbed, ProfileErrorEmbed } from "../utils";
+import { UnfollowEmbed, ProfileErrorEmbed, parseHandle } from "../utils";
 import Stats from "../models/Stats";
 
 const data = new SlashCommandBuilder()
@@ -24,7 +24,7 @@ const data = new SlashCommandBuilder()
   );
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
-  const handle = interaction.options.getString("handle")!;
+  const handle = parseHandle(interaction.options.getString("handle")!);
   const channel = interaction.options.getChannel("channel")! as TextChannel;
 
   const query = {
