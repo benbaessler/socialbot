@@ -58,8 +58,6 @@ app.post(
       SIGNING_KEY!
     );
 
-    console.log("New publication;", body.transaction.hash);
-
     const publication = await getPublicationbyTxHash(body.transaction.hash);
 
     if (!publication)
@@ -69,8 +67,13 @@ app.post(
 
     const monitoredProfileIds = await getMonitoredProfileIds();
 
-    if (monitoredProfileIds.includes(hexToNumber(publication.by.id)))
-      await handlePublication(publication);
+    if (monitoredProfileIds.includes(hexToNumber(publication.by.id))) {
+      try {
+        await handlePublication(publication);
+      } catch (error) {
+        captureException(`Error with ${body.transaction.hash}: ${error}`);
+      }
+    }
 
     response.send();
   }
