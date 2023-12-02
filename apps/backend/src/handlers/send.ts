@@ -40,7 +40,7 @@ export const sendToDiscord = async ({ profileId, payload, type }: Props) => {
         increasePostedCount(instance.guildId, `${type.toLowerCase()}sPosted`),
       ]).catch(() => {
         captureException(`Failed to send webhook to ${instance.webhookUrl}`);
-        deleteInstances(instance.webhookUrl);
+        // deleteInstances(instance.webhookUrl);
       });
     })
   );
