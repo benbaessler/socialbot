@@ -5,7 +5,11 @@ export const helpEmbedContent = `Social Bot allows you to receive real-time upda
 • \`/follow\` - Add a Lens profile to be monitored in your server.
 • \`/unfollow\` - Remove a Lens profile from the feed.
 • \`/edit\` - Edit the preferences of a Lens profile monitor.
-• \`/list\` - See all profiles being monitored in your server.`;
+• \`/list\` - See all profiles being monitored in your server.
+
+You can also manage your bot settings on the [web dashboard](https://dashboard.socialbot.gg).
+Lenspedia documentation: https://docs.lenspedia.xyz/tools/socialbot
+`;
 
 export const listEmbedContent = (monitors: IInstance[]) => {
   if (monitors.length === 0) {
