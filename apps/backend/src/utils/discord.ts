@@ -27,8 +27,7 @@ export const PublicationEmbed = (
       iconURL: getAvatar(post.by),
       url: post.by.handle
         ? getProfileUrl(post.by.handle.fullHandle)
-        : // TODO: link to profile without handle
-          "https://google.com",
+        : `https://hey.xyz/profile/${post.by.id}`,
     });
 
   if (post.metadata.__typename != "EventMetadataV3" && post.metadata.content) {
