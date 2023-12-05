@@ -1,14 +1,11 @@
 import urlcat from "urlcat";
 import { sanitizeDStorageUrl } from "./sanitizeDStorageUrl";
-import { arweaveGateway, defaultProfilePicture, ipfsGateway } from "../constants";
 import {
   LensClient,
   ProfileFragment,
   AnyPublicationFragment,
-  NftImageFragment,
   development,
   production,
-  ProfilePictureSetFragment,
 } from "@lens-protocol/client";
 import { Maybe, PublicationMetadataMedia } from "../generated";
 
@@ -107,11 +104,6 @@ export const getDisplayName = (profile: ProfileFragment): string =>
 
 export const getProfileUrl = (handle: string): string =>
   `https://share.lens.xyz/u/${handle}`;
-
-export const getDefaultProfile = async (
-  address: string
-): Promise<ProfileFragment | null> =>
-  await lensClient.profile.fetchDefault({ for: address });
 
 export const getAttachmentsData = (
   attachments?: Maybe<PublicationMetadataMedia[]>

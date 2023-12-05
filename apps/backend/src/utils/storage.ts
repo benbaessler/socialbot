@@ -7,12 +7,6 @@ export const getMonitoredProfileIds = async () => {
   return [...new Set(profileIds)];
 };
 
-export const getMonitoredHandles = async () => {
-  const instances = await Instance.find({});
-  const handles = instances.map((instance) => instance.handle);
-  return [...new Set(handles)];
-};
-
 export const isMonitoredAddress = async (address: string) => {
   const instances = await Instance.find({ ownedBy: address });
   return instances.length > 0;
