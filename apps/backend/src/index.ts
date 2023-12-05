@@ -1,5 +1,3 @@
-/// <reference path="./index.d.ts" />
-
 import express, { Request, Response } from "express";
 import crypto from "crypto";
 import mongoose from "mongoose";
