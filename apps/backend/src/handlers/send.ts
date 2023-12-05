@@ -1,7 +1,6 @@
 import axios from "axios";
 import {
   getInstances,
-  deleteInstances,
   getInstancesWithMirrors,
   getInstancesWithInteractions,
   increasePostedCount,
